@@ -13,6 +13,7 @@ import fr.pederobien.minecraftgameplateform.impl.element.AbstractNominable;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
+import fr.pederobien.minecraftrules.rules.PvpGameRule;
 
 public abstract class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 	/**
@@ -24,6 +25,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * A list that contains all rule that inherit this class.
 	 */
 	public static final List<IGameRule<?>> RULES = new ArrayList<IGameRule<?>>();
+
+	/**
+	 * A game rule to enable or disable the pvp.
+	 */
+	public static final IGameRule<Boolean> PVP = new PvpGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;
@@ -146,7 +152,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendMessageToSender(sender, EGameRuleMessageCode.VALUE_GAME_RULE__DISPLAY, getName(), getValueToString());
+			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.VALUE_GAME_RULE__DISPLAY, getName(), getValueToString());
 			return true;
 		}
 	}

@@ -7,6 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.pederobien.dictionary.interfaces.IDictionaryParser;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
+import fr.pederobien.minecraftrules.commands.RulesCommand;
 import fr.pederobien.minecraftrules.impl.GameRule;
 
 public class RulesPlugin extends JavaPlugin {
@@ -15,6 +16,8 @@ public class RulesPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Plateform.getPluginHelper().register(this);
+
+		new RulesCommand(this);
 
 		registerDictionaries();
 	}
