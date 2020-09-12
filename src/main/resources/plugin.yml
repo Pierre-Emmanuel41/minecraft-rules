@@ -1,0 +1,10 @@
+main: fr.pederobien.minecraftrules.RulesPlugin
+name: minecraft-rules
+version: 1.0-SNAPSHOT
+api-version: 1.13
+
+description:
+commands:
+  rules:
+    description: This command is used to define several rules that are running when a game is started.
+    permission: PlateformPlugin.permission
