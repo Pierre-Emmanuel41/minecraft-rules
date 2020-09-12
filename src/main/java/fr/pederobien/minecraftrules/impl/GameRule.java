@@ -14,6 +14,7 @@ import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
+import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
 public abstract class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 	/**
@@ -30,6 +31,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * A game rule to enable or disable the pvp.
 	 */
 	public static final IGameRule<Boolean> PVP = new PvpGameRule();
+
+	/**
+	 * Game rule to set whether or not a respawning player is teleported to a teammate.
+	 */
+	public static final IRunnableGameRule<Boolean> REVIVE_NEAR_TEAM_MATE = new RevivePlayerNearTeamMateGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;

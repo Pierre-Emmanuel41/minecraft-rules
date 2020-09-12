@@ -44,5 +44,9 @@
 			<code>PVP_GAME_RULE__EXPLANATION</code>
 			<value>Pour activer ou désactiver le pvp</value>
 		</message>
+		<message>
+			<code>REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION</code>
+			<value>Pour définir si un joueur qui respawn doit être téléporté à un coéquipier</value>
+		</message>
 	</messages>
 </dictionary>
