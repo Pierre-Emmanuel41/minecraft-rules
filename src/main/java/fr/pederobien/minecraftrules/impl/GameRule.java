@@ -126,10 +126,17 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	protected abstract List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args);
 
 	/**
-	 * @return The value that is displayed when the command ./rules value is ran.
+	 * @return The current value that is displayed when the command ./rules value is ran.
 	 */
-	protected String getValueToString() {
+	protected String getCurrentValueToString() {
 		return value.toString();
+	}
+
+	/**
+	 * @return The default value that is displayed when the command ./rules value is ran.
+	 */
+	protected String getDefaultValueToString() {
+		return defaultValue.toString();
 	}
 
 	/**
@@ -143,7 +150,8 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		public GameRuleEdition() {
 			super(getName(), explanation);
 			addEdition(new ResetGameRuleEdition());
-			addEdition(new ValueGameRuleEdition());
+			addEdition(new DefaultValueGameRuleEdition());
+			addEdition(new CurrentValueGameRuleEdition());
 			addEdition(new SetGameRuleEdition());
 		}
 	}
@@ -162,15 +170,28 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		}
 	}
 
-	private class ValueGameRuleEdition extends AbstractSimpleMapEdition {
+	private class DefaultValueGameRuleEdition extends AbstractSimpleMapEdition {
 
-		public ValueGameRuleEdition() {
-			super("value", EGameRuleMessageCode.VALUE_GAME_RULE__EXPLANATION);
+		public DefaultValueGameRuleEdition() {
+			super("defaultValue", EGameRuleMessageCode.DEFAULT_VALUE_GAME_RULE__EXPLANATION);
 		}
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.VALUE_GAME_RULE__DISPLAY, getName(), getValueToString());
+			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getDefaultValueToString());
+			return true;
+		}
+	}
+
+	private class CurrentValueGameRuleEdition extends AbstractSimpleMapEdition {
+
+		public CurrentValueGameRuleEdition() {
+			super("currentValue", EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__EXPLANATION);
+		}
+
+		@Override
+		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrentValueToString());
 			return true;
 		}
 	}

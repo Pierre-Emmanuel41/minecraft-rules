@@ -20,11 +20,19 @@
 			<value>The value of game rule %s is now set to : %s</value>
 		</message>
 		<message>
-			<code>VALUE_GAME_RULE__EXPLANATION</code>
+			<code>DEFAULT_VALUE_GAME_RULE__EXPLANATION</code>
+			<value>To show the default value of this game rule</value>
+		</message>
+		<message>
+			<code>DEFAULT_VALUE_GAME_RULE__DISPLAY</code>
+			<value>The default value of game rule %s is : %s</value>
+		</message>
+		<message>
+			<code>CURRENT_VALUE_GAME_RULE__EXPLANATION</code>
 			<value>To show the current value of this game rule</value>
 		</message>
 		<message>
-			<code>VALUE_GAME_RULE__DISPLAY</code>
+			<code>CURRENT_VALUE_GAME_RULE__DISPLAY</code>
 			<value>The current value of game rule %s is : %s</value>
 		</message>
 		<message>

@@ -7,8 +7,11 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	// Code for command reset
 	RESET_GAME_RULE__EXPLANATION, RESET_GAME_RULE__VALUE_RESET,
 
-	// Code for command value
-	VALUE_GAME_RULE__EXPLANATION, VALUE_GAME_RULE__DISPLAY,
+	// Code for command defaultValue
+	DEFAULT_VALUE_GAME_RULE__EXPLANATION, DEFAULT_VALUE_GAME_RULE__DISPLAY,
+
+	// Code for command currentValue
+	CURRENT_VALUE_GAME_RULE__EXPLANATION, CURRENT_VALUE_GAME_RULE__DISPLAY,
 
 	// Code for command set
 	SET_GAME_RULE__EXPLANATION,
