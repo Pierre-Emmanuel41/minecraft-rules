@@ -7,7 +7,7 @@ import fr.pederobien.minecraftgameplateform.utils.Plateform;
 import fr.pederobien.minecraftrules.RulesPlugin;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 
-public class RunnableGameRule<T> extends GameRule<T> implements IRunnableGameRule<T> {
+public abstract class RunnableGameRule<T> extends GameRule<T> implements IRunnableGameRule<T> {
 	private boolean isRunning;
 	private Plugin plugin;
 

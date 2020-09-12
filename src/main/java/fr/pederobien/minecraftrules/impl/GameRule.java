@@ -3,15 +3,12 @@ package fr.pederobien.minecraftrules.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.TabCompleter;
-
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
 import fr.pederobien.minecraftgameplateform.impl.element.AbstractNominable;
-import fr.pederobien.minecraftgameplateform.interfaces.element.IGameRule;
-import fr.pederobien.minecraftgameplateform.interfaces.element.IRunnableGameRule;
+import fr.pederobien.minecraftrules.interfaces.IGameRule;
+import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 
-public class GameRule<T> extends AbstractNominable implements IGameRule<T> {
+public abstract class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 	/**
 	 * A list that contains all runnable rules that inherit this class.
 	 */
@@ -24,8 +21,6 @@ public class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 
 	private T value, defaultValue;
 	private Class<T> type;
-	private TabCompleter completer;
-	private CommandExecutor executor;
 	private IMinecraftMessageCode explanation;
 
 	protected GameRule(String name, T defaultValue, Class<T> type, IMinecraftMessageCode explanation) {
@@ -61,29 +56,5 @@ public class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 	@Override
 	public IMinecraftMessageCode getExplanation() {
 		return explanation;
-	}
-
-	@Override
-	public TabCompleter getCompleter() {
-		return completer;
-	}
-
-	@Override
-	public CommandExecutor getExecutor() {
-		return executor;
-	}
-
-	/**
-	 * @param completer The completer that propose completions for this command.
-	 */
-	protected void setCompleter(TabCompleter completer) {
-		this.completer = completer;
-	}
-
-	/**
-	 * @param executor The executor that execute some code.
-	 */
-	protected void setExecutor(CommandExecutor executor) {
-		this.executor = executor;
 	}
 }

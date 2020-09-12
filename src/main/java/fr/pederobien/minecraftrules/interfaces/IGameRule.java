@@ -1,8 +1,6 @@
 package fr.pederobien.minecraftrules.interfaces;
 
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.TabCompleter;
-
+import fr.pederobien.minecraftdevelopmenttoolkit.interfaces.messagecode.IMessageCodeSimpleMapEdition;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
 import fr.pederobien.persistence.interfaces.IUnmodifiableNominable;
 
@@ -38,12 +36,7 @@ public interface IGameRule<T> extends IUnmodifiableNominable {
 	IMinecraftMessageCode getExplanation();
 
 	/**
-	 * @return The completer that propose completions for this game rule.
+	 * @return The edition in charge of update this game rule.
 	 */
-	TabCompleter getCompleter();
-
-	/**
-	 * @return The executor used to execute some codes associated to this game rule.
-	 */
-	CommandExecutor getExecutor();
+	IMessageCodeSimpleMapEdition getEdition();
 }
