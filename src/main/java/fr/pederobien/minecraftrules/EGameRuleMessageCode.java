@@ -26,7 +26,13 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION,
 
 	// Code for command displayCurrentTeammateLocation
-	DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION;
+	DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION,
+
+	// Code for common command enchant game rule
+	ENCHANT_GAME_RULE__CANNOT_ENCHANT, ENCHANT_GAME_RULE__ON_TAB_COMPLETE,
+
+	// Code for command maxProtectionOnDiamonds
+	MAX_PROTECTION_ON_DIAMONDS__EXPLANATION;
 
 	private Permission permission;
 

@@ -55,5 +55,17 @@
 			<code>DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION</code>
 			<value>To enable or disable the display of team mates location of a player</value>
 		</message>
+		<message>
+			<code>ENCHANT__CANNOT_ENCHANT</code>
+			<value>You cannot enchant this item, the max level of enchant %s is %s (getting level %s)</value>
+		</message>
+		<message>
+			<code>ENCHANT_GAME_RULE__ON_TAB_COMPLETE</code>
+			<value>&lt;max level&gt;</value>
+		</message>
+		<message>
+			<code>MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
+			<value>To set the max level of the protection enchantment on diamonds armor pieces</value>
+		</message>
 	</messages>
 </dictionary>

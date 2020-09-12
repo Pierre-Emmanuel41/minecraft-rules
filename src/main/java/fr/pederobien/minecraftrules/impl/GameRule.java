@@ -14,6 +14,7 @@ import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
+import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
 import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
@@ -42,6 +43,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * Game rule to enable/deactivate the display of player team mates location.
 	 */
 	public static final IRunnableGameRule<Boolean> DISPLAY_CURRENT_TEAMMATE_LOCATION = new DisplayCurrentTeammatesLocation();
+
+	/**
+	 * Game rule to modify the max level of the protection level on diamonds pieces.
+	 */
+	public static final IRunnableGameRule<Integer> MAX_PROTECTION_ON_DIAMONDS = new MaxProtectionOnDiamondsGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;

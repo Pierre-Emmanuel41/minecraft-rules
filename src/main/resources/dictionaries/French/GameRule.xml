@@ -52,5 +52,17 @@
 			<code>DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION</code>
 			<value>Pour activer ou désactiver l'affichage de la position des coéquipiers d'un joueur</value>
 		</message>
+		<message>
+			<code>ENCHANT__CANNOT_ENCHANT</code>
+			<value>Impossible d'enchanter cet item, le niveau maximum de l'enchantement %s est %s (niveau reçu %s)</value>
+		</message>
+		<message>
+			<code>ENCHANT_GAME_RULE__ON_TAB_COMPLETE</code>
+			<value>&lt;niveau max&gt;</value>
+		</message>
+		<message>
+			<code>MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
+			<value>Pour définir le niveau max de l'enchant protection sur les pièces d'armure en diamants</value>
+		</message>
 	</messages>
 </dictionary>
