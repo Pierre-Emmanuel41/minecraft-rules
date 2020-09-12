@@ -129,7 +129,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * @return The current value that is displayed when the command ./rules value is ran.
 	 */
 	protected String getCurrentValueToString() {
-		return value.toString();
+		return getValue().toString();
 	}
 
 	/**
