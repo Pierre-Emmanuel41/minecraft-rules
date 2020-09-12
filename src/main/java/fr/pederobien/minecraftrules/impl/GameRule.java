@@ -13,6 +13,7 @@ import fr.pederobien.minecraftgameplateform.impl.element.AbstractNominable;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
+import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
 import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
@@ -36,6 +37,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * Game rule to set whether or not a respawning player is teleported to a teammate.
 	 */
 	public static final IRunnableGameRule<Boolean> REVIVE_NEAR_TEAM_MATE = new RevivePlayerNearTeamMateGameRule();
+
+	/**
+	 * Game rule to enable/deactivate the display of player team mates location.
+	 */
+	public static final IRunnableGameRule<Boolean> DISPLAY_CURRENT_TEAMMATE_LOCATION = new DisplayCurrentTeammatesLocation();
 
 	private T value, defaultValue;
 	private Class<T> type;

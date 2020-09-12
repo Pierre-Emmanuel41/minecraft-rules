@@ -51,5 +51,9 @@
 			<code>REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION</code>
 			<value>To set whether or not a respawning player should be teleported to a teammate</value>
 		</message>
+		<message>
+			<code>DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION</code>
+			<value>To enable or disable the display of team mates location of a player</value>
+		</message>
 	</messages>
 </dictionary>

@@ -48,5 +48,9 @@
 			<code>REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION</code>
 			<value>Pour définir si un joueur qui respawn doit être téléporté à un coéquipier</value>
 		</message>
+		<message>
+			<code>DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION</code>
+			<value>Pour activer ou désactiver l'affichage de la position des coéquipiers d'un joueur</value>
+		</message>
 	</messages>
 </dictionary>

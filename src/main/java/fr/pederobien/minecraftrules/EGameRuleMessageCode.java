@@ -23,7 +23,10 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	PVP_GAME_RULE__EXPLANATION,
 
 	// Code for command revivePlayerNearTeammate
-	REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION;
+	REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION,
+
+	// Code for command displayCurrentTeammateLocation
+	DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION;
 
 	private Permission permission;
 
