@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+	<name>Game</name>
+	<version>1.0</version>
+	<locales>
+		<locale>fr</locale>
+		<locale>fr-FR</locale>
+		<locale>fr-CA</locale>
+	</locales>
+	<messages>
+		<message>
+			<code>RESET_GAME_RULE__EXPLANATION</code>
+			<value>Définie la valeur de cette game rule comme étant sa valeur par défaut</value>
+		</message>
+		<message>
+			<code>RESET_GAME_RULE__VALUE_RESET</code>
+			<value>La valeur de la game rule %s est maintenant définie à : %s</value>
+		</message>
+		<message>
+			<code>VALUE_GAME_RULE__EXPLANATION</code>
+			<value>Pour afficher la valeur actuelle de cette game rule</value>
+		</message>
+		<message>
+			<code>VALUE_GAME_RULE__DISPLAY</code>
+			<value>La valeur actuelle de la game rule %s est : %s</value>
+		</message>
+	</messages>
+</dictionary>
