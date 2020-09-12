@@ -47,6 +47,11 @@ public class PvpGameRule extends GameRule<Boolean> {
 
 	@Override
 	protected List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		return Arrays.asList("true", "false");
+		switch (args.length) {
+		case 1:
+			return Arrays.asList("true", "false");
+		default:
+			return Arrays.asList();
+		}
 	}
 }
