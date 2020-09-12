@@ -31,5 +31,21 @@
 			<code>SET_GAME_RULE__EXPLANATION</code>
 			<value>To set the current value of this game rule</value>
 		</message>
+		<message>
+			<code>COMMON_VALUE_IS_MISSING</code>
+			<value>Cannot set the value of game rule %s, the value is missing</value>
+		</message>
+		<message>
+			<code>COMMON_VALUE_DEFINED</code>
+			<value>The value of game rule %s is now set to : %s</value>
+		</message>
+		<message>
+			<code>COMMON_VALUE_DEFINED_IN_GAME</code>
+			<value>The value of game rule %s is now set to : %s (in game)</value>
+		</message>
+		<message>
+			<code>PVP_GAME_RULE__EXPLANATION</code>
+			<value>To enable or disable the pvp</value>
+		</message>
 	</messages>
 </dictionary>

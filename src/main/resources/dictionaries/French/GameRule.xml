@@ -24,5 +24,25 @@
 			<code>VALUE_GAME_RULE__DISPLAY</code>
 			<value>La valeur actuelle de la game rule %s est : %s</value>
 		</message>
+		<message>
+			<code>SET_GAME_RULE__EXPLANATION</code>
+			<value>Pour définir la valeur actuelle de la game rule</value>
+		</message>
+		<message>
+			<code>COMMON_VALUE_IS_MISSING</code>
+			<value>Impossible de définir la valeur de la game rule %s, la valeur est manquante</value>
+		</message>
+		<message>
+			<code>COMMON_VALUE_DEFINED</code>
+			<value>La valeur de la game rule %s est maintenant définie à : %s</value>
+		</message>
+		<message>
+			<code>COMMON_VALUE_DEFINED_IN_GAME</code>
+			<value>la valeur de la game rule %s est maintenant définie à : %s (in game)</value>
+		</message>
+		<message>
+			<code>PVP_GAME_RULE__EXPLANATION</code>
+			<value>Pour activer ou désactiver le pvp</value>
+		</message>
 	</messages>
 </dictionary>

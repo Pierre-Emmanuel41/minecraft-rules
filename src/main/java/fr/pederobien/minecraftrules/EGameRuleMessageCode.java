@@ -11,7 +11,13 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	VALUE_GAME_RULE__EXPLANATION, VALUE_GAME_RULE__DISPLAY,
 
 	// Code for command set
-	SET_GAME_RULE__EXPLANATION;
+	SET_GAME_RULE__EXPLANATION,
+
+	// Code for common game rule
+	COMMON_VALUE_IS_MISSING, COMMON_VALUE_DEFINED, COMMON_VALUE_DEFINED_IN_GAME,
+
+	// Code for command pvp
+	PVP_GAME_RULE__EXPLANATION;
 
 	private Permission permission;
 
