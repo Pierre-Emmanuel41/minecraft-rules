@@ -57,6 +57,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	}
 
 	@Override
+	public void reset() {
+		setValue(getDefaultValue());
+	}
+
+	@Override
 	public Class<T> getType() {
 		return type;
 	}

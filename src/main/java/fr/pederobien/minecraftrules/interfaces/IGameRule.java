@@ -24,6 +24,11 @@ public interface IGameRule<T> extends IUnmodifiableNominable {
 	T getDefaultValue();
 
 	/**
+	 * Reset the value of this game rule. This is a convenient method and is equivalent to <code>setValue(getDefaultValue());</code>
+	 */
+	void reset();
+
+	/**
 	 * Get the type of this rule.
 	 *
 	 * @return the rule type.
