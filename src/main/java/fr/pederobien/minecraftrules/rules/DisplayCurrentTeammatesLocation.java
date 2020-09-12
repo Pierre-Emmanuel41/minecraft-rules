@@ -26,7 +26,7 @@ import fr.pederobien.minecraftrules.impl.PeriodicGameRule;
 public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 
 	public DisplayCurrentTeammatesLocation() {
-		super("displayCurrentTeamMatesLocation", false, Boolean.class, EGameRuleMessageCode.DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION);
+		super("displayCurrentTeamMatesLocation", true, Boolean.class, EGameRuleMessageCode.DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION);
 	}
 
 	@Override
