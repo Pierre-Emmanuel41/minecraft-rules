@@ -33,9 +33,29 @@ public class RulesCommand extends AbstractSimpleCommand {
 	private class PvpActivator implements IObsTimeLine {
 
 		@Override
-		public void timeChanged(LocalTime time) {
+		public int getCountDown() {
+			return 0;
+		}
+
+		@Override
+		public int getCurrentCountDown() {
+			return 0;
+		}
+
+		@Override
+		public void onTime(LocalTime time) {
 			GameRule.PVP.setValue(true);
 			Plateform.getGameConfigurationContext().getGame().onPvpEnabled();
+		}
+
+		@Override
+		public void onCountDownTime(LocalTime currentTime) {
+
+		}
+
+		@Override
+		public LocalTime getNextNotifiedTime() {
+			return LocalTime.of(0, 0, 0);
 		}
 	}
 }
