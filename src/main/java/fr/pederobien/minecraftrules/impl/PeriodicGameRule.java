@@ -23,7 +23,8 @@ public abstract class PeriodicGameRule<T> extends RunnableGameRule<T> implements
 	@Override
 	public void stop() {
 		super.stop();
-		BukkitManager.getScheduler().cancelTask(task.getTaskId());
+		if (task != null)
+			BukkitManager.getScheduler().cancelTask(task.getTaskId());
 	}
 
 	@Override
