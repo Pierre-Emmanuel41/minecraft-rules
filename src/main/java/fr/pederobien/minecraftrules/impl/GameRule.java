@@ -128,14 +128,14 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	/**
 	 * @return The current value that is displayed when the command ./rules value is ran.
 	 */
-	protected String getCurrentValueToString() {
+	protected String getCurrent() {
 		return getValue().toString();
 	}
 
 	/**
 	 * @return The default value that is displayed when the command ./rules value is ran.
 	 */
-	protected String getDefaultValueToString() {
+	protected String getDefault() {
 		return defaultValue.toString();
 	}
 
@@ -150,7 +150,6 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		public GameRuleEdition() {
 			super(getName(), explanation);
 			addEdition(new ResetGameRuleEdition());
-			addEdition(new DefaultValueGameRuleEdition());
 			addEdition(new CurrentValueGameRuleEdition());
 			addEdition(new SetGameRuleEdition());
 		}
@@ -170,28 +169,15 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		}
 	}
 
-	private class DefaultValueGameRuleEdition extends AbstractSimpleMapEdition {
-
-		public DefaultValueGameRuleEdition() {
-			super("defaultValue", EGameRuleMessageCode.DEFAULT_VALUE_GAME_RULE__EXPLANATION);
-		}
-
-		@Override
-		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getDefaultValueToString());
-			return true;
-		}
-	}
-
 	private class CurrentValueGameRuleEdition extends AbstractSimpleMapEdition {
 
 		public CurrentValueGameRuleEdition() {
-			super("currentValue", EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__EXPLANATION);
+			super("get", EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__EXPLANATION);
 		}
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrentValueToString());
+			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrent(), getDefault());
 			return true;
 		}
 	}

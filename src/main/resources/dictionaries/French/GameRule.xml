@@ -17,20 +17,12 @@
 			<value>La valeur de la game rule %s est maintenant définie à : %s</value>
 		</message>
 		<message>
-			<code>DEFAULT_VALUE_GAME_RULE__EXPLANATION</code>
-			<value>Pour afficher la valeur par défaut de cette game rule</value>
-		</message>
-		<message>
-			<code>DEFAULT_VALUE_GAME_RULE__DISPLAY</code>
-			<value>La valeur par défaut de la game rule %s est : %s</value>
-		</message>
-		<message>
 			<code>CURRENT_VALUE_GAME_RULE__EXPLANATION</code>
 			<value>Pour afficher la valeur actuelle de cette game rule</value>
 		</message>
 		<message>
 			<code>CURRENT_VALUE_GAME_RULE__DISPLAY</code>
-			<value>La valeur actuelle de la game rule %s est : %s</value>
+			<value>La valeur actuelle de la game rule %s est : %s (valeur par défaut : %s)</value>
 		</message>
 		<message>
 			<code>SET_GAME_RULE__EXPLANATION</code>
