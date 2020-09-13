@@ -12,7 +12,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
-import fr.pederobien.minecraftgameplateform.dictionary.EGameRuleMessageCode;
 import fr.pederobien.minecraftgameplateform.interfaces.element.ITeam;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
 import fr.pederobien.minecraftmanagers.MessageManager;
@@ -21,6 +20,7 @@ import fr.pederobien.minecraftmanagers.MessageManager.TitleMessage;
 import fr.pederobien.minecraftmanagers.TeamManager;
 import fr.pederobien.minecraftmanagers.TeamManager.ColleagueInfo;
 import fr.pederobien.minecraftmanagers.WorldManager;
+import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.impl.PeriodicGameRule;
 
 public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
