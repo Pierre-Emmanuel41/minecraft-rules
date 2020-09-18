@@ -83,12 +83,12 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 			else if (value.equals("false"))
 				setValue(false);
 			else {
-				getEdition().sendMessageToSender(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
+				getEdition().sendSynchro(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
 				return false;
 			}
-			getEdition().sendMessageToSender(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
+			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
 		} catch (IndexOutOfBoundsException e) {
-			getEdition().sendMessageToSender(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
+			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
 			return false;
 		}
 		return true;

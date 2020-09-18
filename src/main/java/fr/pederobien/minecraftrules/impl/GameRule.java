@@ -164,7 +164,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 			setValue(getDefaultValue());
-			sendMessageToSender(sender, EGameRuleMessageCode.RESET_GAME_RULE__VALUE_RESET, getName(), getValue());
+			sendSynchro(sender, EGameRuleMessageCode.RESET_GAME_RULE__VALUE_RESET, getName(), getValue());
 			return true;
 		}
 	}
@@ -177,7 +177,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendMessageToSenderNotSynchonized(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrent(), getDefault());
+			sendNotSynchro(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrent(), getDefault());
 			return true;
 		}
 	}

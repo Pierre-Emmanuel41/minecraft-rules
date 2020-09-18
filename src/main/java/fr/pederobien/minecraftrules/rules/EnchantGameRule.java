@@ -38,7 +38,7 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 		for (Map.Entry<Enchantment, Integer> entry : event.getEnchantsToAdd().entrySet())
 			if (entry.getKey().equals(enchantment) && entry.getValue() > getValue()) {
 				event.setCancelled(true);
-				getEdition().sendMessageToSenderNotSynchonized(event.getEnchanter(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT,
+				getEdition().sendNotSynchro(event.getEnchanter(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT,
 						enchantment.getKey().getKey(), getValue(), entry.getValue());
 			}
 	}
@@ -57,7 +57,7 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 		for (Map.Entry<Enchantment, Integer> entry : result.getEnchantments().entrySet()) {
 			if (entry.getKey().equals(enchantment) && entry.getValue() > getValue()) {
 				event.setCancelled(true);
-				getEdition().sendMessageToSenderNotSynchonized(event.getWhoClicked(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT,
+				getEdition().sendNotSynchro(event.getWhoClicked(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT,
 						enchantment.getKey().getKey(), getValue(), entry.getValue());
 			}
 		}
@@ -67,12 +67,12 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		try {
 			setValue(Integer.parseInt(args[0]));
-			getEdition().sendMessageToSender(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
+			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
 		} catch (IndexOutOfBoundsException e) {
-			getEdition().sendMessageToSender(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
+			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
 			return false;
 		} catch (NumberFormatException e) {
-			getEdition().sendMessageToSender(sender, ECommonMessageCode.COMMON_BAD_INTEGER_FORMAT);
+			getEdition().sendSynchro(sender, ECommonMessageCode.COMMON_BAD_INTEGER_FORMAT);
 			return false;
 		}
 		return true;
@@ -82,7 +82,7 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 		switch (args.length) {
 		case 1:
-			return Arrays.asList(getEdition().getMessageFromDictionary(sender, EGameRuleMessageCode.ENCHANT_GAME_RULE__ON_TAB_COMPLETE));
+			return Arrays.asList(getEdition().getMessage(sender, EGameRuleMessageCode.ENCHANT_GAME_RULE__ON_TAB_COMPLETE));
 		default:
 			return Arrays.asList();
 		}
