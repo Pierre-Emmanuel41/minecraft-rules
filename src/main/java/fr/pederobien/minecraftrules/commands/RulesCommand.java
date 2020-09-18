@@ -4,16 +4,13 @@ import java.time.LocalTime;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.pederobien.minecraftdictionary.impl.MinecraftMessageEvent;
 import fr.pederobien.minecraftgameplateform.commands.AbstractSimpleCommand;
+import fr.pederobien.minecraftgameplateform.interfaces.editions.IPlateformCodeSender;
 import fr.pederobien.minecraftgameplateform.interfaces.element.IGame;
 import fr.pederobien.minecraftgameplateform.interfaces.runtime.timeline.IObsTimeLine;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
 import fr.pederobien.minecraftmanagers.EColor;
-import fr.pederobien.minecraftmanagers.MessageManager;
 import fr.pederobien.minecraftmanagers.MessageManager.DisplayOption;
-import fr.pederobien.minecraftmanagers.MessageManager.TitleMessage;
-import fr.pederobien.minecraftmanagers.PlayerManager;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.impl.GameRule;
 
@@ -37,7 +34,7 @@ public class RulesCommand extends AbstractSimpleCommand {
 		GameRule.RUNNABLE_RULES.forEach(rule -> rule.stop());
 	}
 
-	private class PvpActivator implements IObsTimeLine {
+	private class PvpActivator implements IObsTimeLine, IPlateformCodeSender {
 		private int currentCountDown;
 
 		private PvpActivator() {
@@ -63,11 +60,7 @@ public class RulesCommand extends AbstractSimpleCommand {
 
 		@Override
 		public void onCountDownTime(LocalTime currentTime) {
-			// Permission of message PVP__COUNT_DOWN is ALL, we don't need to specify a player for the event.
-			PlayerManager.getPlayers().forEach(player -> {
-				String message = Plateform.getNotificationCenter().getMessage(new MinecraftMessageEvent(EGameRuleMessageCode.PVP__COUNT_DOWN, currentCountDown));
-				MessageManager.sendMessage(DisplayOption.TITLE, player, TitleMessage.of(message, EColor.GOLD));
-			});
+			sendNotSynchro(EGameRuleMessageCode.PVP__COUNT_DOWN, DisplayOption.TITLE, EColor.GOLD, currentCountDown);
 			currentCountDown--;
 		}
 
