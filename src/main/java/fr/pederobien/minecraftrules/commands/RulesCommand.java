@@ -66,7 +66,7 @@ public class RulesCommand extends AbstractSimpleCommand {
 			// Permission of message PVP__COUNT_DOWN is ALL, we don't need to specify a player for the event.
 			PlayerManager.getPlayers().forEach(player -> {
 				String message = Plateform.getNotificationCenter().getMessage(new MinecraftMessageEvent(EGameRuleMessageCode.PVP__COUNT_DOWN, currentCountDown));
-				MessageManager.sendMessage(DisplayOption.TITLE, player, TitleMessage.of(message, EColor.GOLD.getName()));
+				MessageManager.sendMessage(DisplayOption.TITLE, player, TitleMessage.of(message, EColor.GOLD.toString()));
 			});
 			currentCountDown--;
 		}
