@@ -64,5 +64,9 @@
 			<code>MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
 			<value>Pour définir le niveau max de l'enchant protection sur les pièces d'armure en diamants</value>
 		</message>
+		<message>
+			<code>PVP__COUNT_DOWN</code>
+			<value>Pvp activé dans %s</value>
+		</message>
 	</messages>
 </dictionary>

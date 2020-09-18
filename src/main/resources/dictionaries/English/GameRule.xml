@@ -67,5 +67,9 @@
 			<code>MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
 			<value>To set the max level of the protection enchantment on diamonds armor pieces</value>
 		</message>
+		<message>
+			<code>PVP__COUNT_DOWN</code>
+			<value>Pvp enabled in %s</value>
+		</message>
 	</messages>
 </dictionary>

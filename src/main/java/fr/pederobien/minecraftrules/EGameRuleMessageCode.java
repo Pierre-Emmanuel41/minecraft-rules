@@ -32,7 +32,10 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	ENCHANT_GAME_RULE__CANNOT_ENCHANT, ENCHANT_GAME_RULE__ON_TAB_COMPLETE,
 
 	// Code for command maxProtectionOnDiamonds
-	MAX_PROTECTION_ON_DIAMONDS__EXPLANATION;
+	MAX_PROTECTION_ON_DIAMONDS__EXPLANATION,
+
+	// Code for pvp count down
+	PVP__COUNT_DOWN(Permission.ALL);
 
 	private Permission permission;
 
