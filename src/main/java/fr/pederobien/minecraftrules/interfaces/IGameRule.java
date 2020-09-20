@@ -2,9 +2,10 @@ package fr.pederobien.minecraftrules.interfaces;
 
 import fr.pederobien.minecraftdevelopmenttoolkit.interfaces.messagecode.IMessageCodeSimpleMapEdition;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
+import fr.pederobien.minecraftgameplateform.interfaces.editions.IPlateformCodeSender;
 import fr.pederobien.persistence.interfaces.IUnmodifiableNominable;
 
-public interface IGameRule<T> extends IUnmodifiableNominable {
+public interface IGameRule<T> extends IUnmodifiableNominable, IPlateformCodeSender {
 
 	/**
 	 * @return the current value of this game rule.

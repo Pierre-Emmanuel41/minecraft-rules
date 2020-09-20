@@ -42,12 +42,12 @@ public class RevivePlayerNearTeamMateGameRule extends EventGameRule<Boolean> {
 			else if (value.equals("false"))
 				setValue(false);
 			else {
-				getEdition().sendSynchro(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
+				sendSynchro(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
 				return false;
 			}
-			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), value);
+			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), value);
 		} catch (IndexOutOfBoundsException e) {
-			getEdition().sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
+			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
 			return false;
 		}
 		return true;
