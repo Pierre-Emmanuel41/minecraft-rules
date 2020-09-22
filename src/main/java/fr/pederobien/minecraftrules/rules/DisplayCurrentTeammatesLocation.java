@@ -69,8 +69,12 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 					continue;
 
 				StringJoiner joiner = new StringJoiner(" ");
-				for (ColleagueInfo info : colleagueInfos)
-					joiner.add(info.getColleague().getName() + " : " + info.getDistance() + " | " + info.getArrow().getUnicode());
+				for (ColleagueInfo info : colleagueInfos) {
+					if (info.isInDifferentWorld())
+						joiner.add(info.getColleague().getName() + " : " + WorldManager.getWorldNameNormalised(info.getColleague().getWorld()));
+					else
+						joiner.add(info.getColleague().getName() + " : " + info.getDistance() + " | " + info.getArrow().getUnicode());
+				}
 
 				MessageManager.sendMessage(DisplayOption.ACTION_BAR, player, TitleMessage.of(joiner.toString()));
 			}
