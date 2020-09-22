@@ -15,7 +15,6 @@ import org.bukkit.entity.Player;
 import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
 import fr.pederobien.minecraftgameplateform.interfaces.element.ITeam;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
-import fr.pederobien.minecraftmanagers.BukkitManager;
 import fr.pederobien.minecraftmanagers.MessageManager;
 import fr.pederobien.minecraftmanagers.MessageManager.DisplayOption;
 import fr.pederobien.minecraftmanagers.MessageManager.TitleMessage;
@@ -61,9 +60,7 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 		}
 
 		List<ITeam> teams = new ArrayList<ITeam>(Plateform.getGameConfigurationContext().getTeams());
-		BukkitManager.broadcastMessage("Teams size : " + teams.size());
 		for (ITeam team : teams) {
-			BukkitManager.broadcastMessage("Team : " + team);
 			List<Player> players = team.getPlayers();
 			for (Player player : players) {
 				List<ColleagueInfo> colleagueInfos = TeamManager.getColleaguesInfo(player, p -> p.getGameMode().equals(GameMode.SURVIVAL)).collect(Collectors.toList());
