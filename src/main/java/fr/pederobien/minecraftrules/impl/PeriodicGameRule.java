@@ -4,6 +4,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
 import fr.pederobien.minecraftmanagers.BukkitManager;
+import fr.pederobien.minecraftrules.RulesPlugin;
 import fr.pederobien.minecraftrules.interfaces.IPeriodicGameRule;
 
 public abstract class PeriodicGameRule<T> extends RunnableGameRule<T> implements IPeriodicGameRule<T> {
@@ -17,7 +18,7 @@ public abstract class PeriodicGameRule<T> extends RunnableGameRule<T> implements
 	@Override
 	public void start() {
 		super.start();
-		task = BukkitManager.getScheduler().runTaskTimer(getPlugin(), this, 0, getPeriod());
+		task = BukkitManager.getScheduler().runTaskTimer(RulesPlugin.get(), this, 0, getPeriod());
 	}
 
 	@Override

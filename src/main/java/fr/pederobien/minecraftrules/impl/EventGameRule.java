@@ -1,6 +1,7 @@
 package fr.pederobien.minecraftrules.impl;
 
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
+import fr.pederobien.minecraftrules.RulesPlugin;
 import fr.pederobien.minecraftrules.interfaces.IEventGameRule;
 
 public abstract class EventGameRule<T> extends RunnableGameRule<T> implements IEventGameRule<T> {
@@ -15,7 +16,7 @@ public abstract class EventGameRule<T> extends RunnableGameRule<T> implements IE
 		if (isRegistered)
 			return;
 
-		getPlugin().getServer().getPluginManager().registerEvents(this, getPlugin());
+		RulesPlugin.get().getServer().getPluginManager().registerEvents(this, RulesPlugin.get());
 		isRegistered = true;
 	}
 }
