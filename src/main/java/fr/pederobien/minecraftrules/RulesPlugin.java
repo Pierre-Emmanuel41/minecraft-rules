@@ -24,6 +24,7 @@ public class RulesPlugin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		Plateform.getPluginHelper().register(this);
+		plugin = this;
 
 		new RulesCommand(this);
 
