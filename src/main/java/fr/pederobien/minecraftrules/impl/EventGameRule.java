@@ -13,6 +13,7 @@ public abstract class EventGameRule<T> extends RunnableGameRule<T> implements IE
 
 	@Override
 	public void start() {
+		super.start();
 		if (isRegistered)
 			return;
 
