@@ -75,5 +75,29 @@
 			<code>ANNOUNCE_ADVANCEMENTS_GAME_RULE__EXPLANATION</code>
 			<value>To enable or disable the advancements announcement</value>
 		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__EXPLANATION</code>
+			<value>To specify which mobs are not allowed to spawn</value>
+		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__ALL_MOBS_ALLOWED</code>
+			<value>All mobs are allowed to spawn</value>
+		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__MOB_UNDEFINED</code>
+			<value>The mobs %s is undefined</value>
+		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__ONE_MOB_NOT_ALLOWED</code>
+			<value>The %s is not allowed to spawn (in game)</value>
+		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__SEVERAL_MOBS_NOT_ALLOWED</code>
+			<value>List of not allowed mobs to spawn (in game) :%n%s</value>
+		</message>
+		<message>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__RESET</code>
+			<value>Any</value>
+		</message>
 	</messages>
 </dictionary>

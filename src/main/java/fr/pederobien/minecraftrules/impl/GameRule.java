@@ -1,10 +1,16 @@
 package fr.pederobien.minecraftrules.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.RandomAccess;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 
 import fr.pederobien.minecraftdevelopmenttoolkit.interfaces.messagecode.IMessageCodeSimpleMapEdition;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
@@ -16,6 +22,7 @@ import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftrules.rules.AnnounceAdvancementsGameRule;
 import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
 import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
+import fr.pederobien.minecraftrules.rules.MobsNotAllowedToSpawnGameRule;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
 import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
@@ -54,6 +61,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * Game rule to enable or disable the advancement announcement in the overworld, in the nether and in the ender.
 	 */
 	public static final IRunnableGameRule<Boolean> ANNOUNCE_ADVANCEMENTS = new AnnounceAdvancementsGameRule();
+
+	/**
+	 * Game rule to specify which mobs are not allowed to spawn.
+	 */
+	public static final IRunnableGameRule<List<EntityType>> MOBS_NOT_ALLOWED_TO_SPAWN = new MobsNotAllowedToSpawnGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;
@@ -107,6 +119,54 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	}
 
 	/**
+	 * Filter each string from the given stream using condition : <code>str.contains(filter)</code>
+	 * 
+	 * @param stream A stream that contains string to filter.
+	 * @param filter The condition used to filter the previous stream.
+	 * 
+	 * @return A list of string from the given stream that contains the filter.
+	 */
+	protected List<String> filter(Stream<String> stream, String filter) {
+		return stream.filter(str -> str.contains(filter)).collect(Collectors.toList());
+	}
+
+	/**
+	 * Filter each string from the given stream using condition : <code>str.contains(args[args.length - 1])</code>. This method is
+	 * equivalent to : <code>filter(stream, args[args.length - 1])</code>. In other words, this method filter the given stream using
+	 * the last argument from the array <code>args</code>.
+	 * 
+	 * @param stream A stream that contains string to filter.
+	 * @param args   The array that contains arguments coming from method <code>onTabComplete</code>.
+	 * 
+	 * @return A list of string from the given stream that contains the filter.
+	 * 
+	 * @see #filter(Stream, String)
+	 * @see #onTabComplete(org.bukkit.command.CommandSender, org.bukkit.command.Command, String, String[])
+	 */
+	protected List<String> filter(Stream<String> stream, String... args) {
+		return filter(stream, args[args.length - 1]);
+	}
+
+	/**
+	 * Returns a fixed-size list backed by the specified array. (Changes to the returned list "write through" to the array.) This
+	 * method acts as bridge between array-based and collection-based APIs, in combination with {@link Collection#toArray}. The
+	 * returned list is serializable and implements {@link RandomAccess}.
+	 *
+	 * <p>
+	 * This method also provides a convenient way to create a fixed-size list initialized to contain several elements:
+	 * 
+	 * <pre>
+	 * List&lt;String&gt; stooges = Arrays.asList("Larry", "Moe", "Curly");
+	 * </pre>
+	 *
+	 * @param strings the array by which the list will be backed.
+	 * @return A list view of the specified array.
+	 */
+	protected List<String> asList(String... strings) {
+		return Arrays.asList(strings);
+	}
+
+	/**
 	 * Executes the given command, returning its success.
 	 *
 	 * @param sender  Source of the command.
@@ -134,21 +194,21 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	/**
 	 * @return The current value that is displayed when the command ./rules value is ran.
 	 */
-	protected String getCurrent() {
+	protected String getCurrent(CommandSender sender) {
 		return getValue().toString();
 	}
 
 	/**
 	 * @return The default value that is displayed when the command ./rules value is ran.
 	 */
-	protected String getDefault() {
+	protected String getDefault(CommandSender sender) {
 		return defaultValue.toString();
 	}
 
 	/**
 	 * Class used to create an edition associated to this game rule in order to modify it
 	 * 
-	 * @author Utilisateur
+	 * @author Pierre-Emmanuel
 	 *
 	 */
 	protected class GameRuleEdition extends AbstractSimpleMapEdition {
@@ -170,7 +230,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 			setValue(getDefaultValue());
-			sendSynchro(sender, EGameRuleMessageCode.RESET_GAME_RULE__VALUE_RESET, getName(), getValue());
+			sendSynchro(sender, EGameRuleMessageCode.RESET_GAME_RULE__VALUE_RESET, getName(), getDefault(sender));
 			return true;
 		}
 	}
@@ -183,7 +243,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			sendNotSynchro(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrent(), getDefault());
+			sendNotSynchro(sender, EGameRuleMessageCode.CURRENT_VALUE_GAME_RULE__DISPLAY, getName(), getCurrent(sender), getDefault(sender));
 			return true;
 		}
 	}
