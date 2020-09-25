@@ -48,6 +48,10 @@
 			<value>To enable or disable the pvp</value>
 		</message>
 		<message>
+			<code>PVP__COUNT_DOWN</code>
+			<value>Pvp enabled in %s</value>
+		</message>
+		<message>
 			<code>REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION</code>
 			<value>To set whether or not a respawning player should be teleported to a teammate</value>
 		</message>
@@ -68,8 +72,8 @@
 			<value>To set the max level of the protection enchantment on diamonds armor pieces</value>
 		</message>
 		<message>
-			<code>PVP__COUNT_DOWN</code>
-			<value>Pvp enabled in %s</value>
+			<code>ANNOUNCE_ADVANCEMENTS_GAME_RULE__EXPLANATION</code>
+			<value>To enable or disable the advancements announcement</value>
 		</message>
 	</messages>
 </dictionary>

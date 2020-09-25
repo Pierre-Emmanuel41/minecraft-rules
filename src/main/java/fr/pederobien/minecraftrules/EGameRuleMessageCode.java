@@ -20,7 +20,7 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	RULES__EXPLANATION,
 
 	// Code for command pvp
-	PVP_GAME_RULE__EXPLANATION,
+	PVP_GAME_RULE__EXPLANATION, PVP__COUNT_DOWN(Permission.ALL),
 
 	// Code for command revivePlayerNearTeammate
 	REVIVE_PLAYER_NEAR_TEAMMATE__EXPLANATION,
@@ -34,8 +34,8 @@ public enum EGameRuleMessageCode implements IMinecraftMessageCode {
 	// Code for command maxProtectionOnDiamonds
 	MAX_PROTECTION_ON_DIAMONDS__EXPLANATION,
 
-	// Code for pvp count down
-	PVP__COUNT_DOWN(Permission.ALL);
+	// Code for command announceAdvancements
+	ANNOUNCE_ADVANCEMENTS_GAME_RULE__EXPLANATION;
 
 	private Permission permission;
 

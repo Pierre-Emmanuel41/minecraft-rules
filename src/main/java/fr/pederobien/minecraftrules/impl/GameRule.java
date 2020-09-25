@@ -13,6 +13,7 @@ import fr.pederobien.minecraftgameplateform.impl.element.AbstractNominable;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
+import fr.pederobien.minecraftrules.rules.AnnounceAdvancementsGameRule;
 import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
 import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
@@ -48,6 +49,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * Game rule to modify the max level of the protection level on diamonds pieces.
 	 */
 	public static final IRunnableGameRule<Integer> MAX_PROTECTION_ON_DIAMONDS = new MaxProtectionOnDiamondsGameRule();
+
+	/**
+	 * Game rule to enable or disable the advancement announcement in the overworld, in the nether and in the ender.
+	 */
+	public static final IRunnableGameRule<Boolean> ANNOUNCE_ADVANCEMENTS = new AnnounceAdvancementsGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;
