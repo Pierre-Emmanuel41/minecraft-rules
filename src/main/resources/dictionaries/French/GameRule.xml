@@ -93,7 +93,7 @@
 			<value>Liste des créatures non autorisée à apparaître (in game) :%n%s</value>
 		</message>
 		<message>
-			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__RESET</code>
+			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__DEFAULT</code>
 			<value>Aucun</value>
 		</message>
 	</messages>

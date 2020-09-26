@@ -68,9 +68,21 @@ public class MobsNotAllowedToSpawnGameRule extends EventGameRule<List<EntityType
 		event.setCancelled(true);
 	}
 
+	@SuppressWarnings("deprecation")
+	@Override
+	protected String getCurrent(CommandSender sender) {
+		if (getValue().isEmpty())
+			return getMessage(sender, EGameRuleMessageCode.MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__DEFAULT);
+
+		StringJoiner joiner = new StringJoiner("\n");
+		for (EntityType type : getValue())
+			joiner.add(type.getName());
+		return "\n".concat(joiner.toString()).concat("\n");
+	}
+
 	@Override
 	protected String getDefault(CommandSender sender) {
-		return getMessage(sender, EGameRuleMessageCode.MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__RESET);
+		return getMessage(sender, EGameRuleMessageCode.MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__DEFAULT);
 	}
 
 	@SuppressWarnings("deprecation")
