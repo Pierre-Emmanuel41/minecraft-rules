@@ -20,6 +20,7 @@ import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.interfaces.IGameRule;
 import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftrules.rules.AnnounceAdvancementsGameRule;
+import fr.pederobien.minecraftrules.rules.AppleDropRateGameRule;
 import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
 import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
 import fr.pederobien.minecraftrules.rules.MobsNotAllowedToSpawnGameRule;
@@ -66,6 +67,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 * Game rule to specify which mobs are not allowed to spawn.
 	 */
 	public static final IRunnableGameRule<List<EntityType>> MOBS_NOT_ALLOWED_TO_SPAWN = new MobsNotAllowedToSpawnGameRule();
+
+	/**
+	 * Game rule to modify the apple drop rate.
+	 */
+	public static final IRunnableGameRule<Double> APPLE_DROP_RATE = new AppleDropRateGameRule();
 
 	private T value, defaultValue;
 	private Class<T> type;

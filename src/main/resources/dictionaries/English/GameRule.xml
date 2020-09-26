@@ -99,5 +99,21 @@
 			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__DEFAULT</code>
 			<value>Any</value>
 		</message>
+		<message>
+			<code>APPLE_DROP_RATE__EXPLANATION</code>
+			<value>To modify the apple drop rate</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__DROP_RATE_ON_TAB_COMPLETE</code>
+			<value>&lt;rate&gt;</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__VALUE_OUT_OF_BOUND</code>
+			<value>The apple drop rate should be in range [0, 1]</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__DROP_RATE_DEFAULT</code>
+			<value>Managed by the server</value>
+		</message>
 	</messages>
 </dictionary>

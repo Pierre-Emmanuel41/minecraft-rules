@@ -96,5 +96,21 @@
 			<code>MOBS_NOT_ALLOWED_TO_SPAWN_GAME_RULE__DEFAULT</code>
 			<value>Aucun</value>
 		</message>
+		<message>
+			<code>APPLE_DROP_RATE__EXPLANATION</code>
+			<value>Pour modifier le taux de chute des pommes</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__DROP_RATE_ON_TAB_COMPLETE</code>
+			<value>&lt;taux&gt;</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__VALUE_OUT_OF_BOUND</code>
+			<value>La taux de chute des pomes doit être dans l'intervalle [0, 1]</value>
+		</message>
+		<message>
+			<code>APPLE_DROP_RATE__DROP_RATE_DEFAULT</code>
+			<value>Géré par le serveur</value>
+		</message>
 	</messages>
 </dictionary>
