@@ -106,7 +106,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 	@Override
 	public void reset() {
-		setValue(getDefaultValue());
+		value = defaultValue;
 	}
 
 	@Override
@@ -235,7 +235,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 		@Override
 		public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-			setValue(getDefaultValue());
+			reset();
 			sendSynchro(sender, EGameRuleMessageCode.RESET_GAME_RULE__VALUE_RESET, getName(), getDefault(sender));
 			return true;
 		}

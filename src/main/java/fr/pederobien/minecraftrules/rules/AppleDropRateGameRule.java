@@ -46,6 +46,7 @@ public class AppleDropRateGameRule extends EventGameRule<Double> {
 	protected boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		try {
 			setValue(Double.parseDouble(args[0]));
+			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
 		} catch (IndexOutOfBoundsException e) {
 			sendNotSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING);
 			return false;
@@ -57,6 +58,11 @@ public class AppleDropRateGameRule extends EventGameRule<Double> {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	protected String getCurrent(CommandSender sender) {
+		return getValue() == -1 ? getMessage(sender, EGameRuleMessageCode.APPLE_DROP_RATE__DROP_RATE_DEFAULT) : getValue().toString();
 	}
 
 	@Override
