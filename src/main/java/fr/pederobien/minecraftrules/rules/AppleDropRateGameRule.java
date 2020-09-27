@@ -26,6 +26,11 @@ public class AppleDropRateGameRule extends EventGameRule<Double> {
 	}
 
 	@Override
+	public void reset() {
+		super.setValue(getDefaultValue());
+	}
+
+	@Override
 	public void setValue(Double value) {
 		if (value < 0 || value > 1)
 			throw new UnsupportedOperationException("The value is out of range [0,1]");

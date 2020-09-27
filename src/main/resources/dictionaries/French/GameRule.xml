@@ -112,5 +112,9 @@
 			<code>APPLE_DROP_RATE__DROP_RATE_DEFAULT</code>
 			<value>Géré par le serveur</value>
 		</message>
+		<message>
+			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<value>Pour Déterminer si les joueurs peuvent régénérer leur santé naturellement grâce à leur barre de faim</value>
+		</message>
 	</messages>
 </dictionary>

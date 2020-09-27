@@ -115,5 +115,9 @@
 			<code>APPLE_DROP_RATE__DROP_RATE_DEFAULT</code>
 			<value>Managed by the server</value>
 		</message>
+		<message>
+			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<value>To set if players can regenerate health naturally through their hunger bar</value>
+		</message>
 	</messages>
 </dictionary>

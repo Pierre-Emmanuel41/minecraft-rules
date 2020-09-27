@@ -25,6 +25,7 @@ import fr.pederobien.minecraftrules.rules.AppleDropRateGameRule;
 import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
 import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
 import fr.pederobien.minecraftrules.rules.MobsNotAllowedToSpawnGameRule;
+import fr.pederobien.minecraftrules.rules.NaturalRegenerationGameRule;
 import fr.pederobien.minecraftrules.rules.PvpGameRule;
 import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
@@ -74,6 +75,11 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 	 */
 	public static final IRunnableGameRule<Double> APPLE_DROP_RATE = new AppleDropRateGameRule();
 
+	/**
+	 * Game rule to set if players can regenerate health naturally through their hunger bar
+	 */
+	public static final IRunnableGameRule<Boolean> NATURAL_REGENERATION = new NaturalRegenerationGameRule();
+
 	private T value, defaultValue;
 	private Class<T> type;
 	private IMinecraftMessageCode explanation;
@@ -107,7 +113,7 @@ public abstract class GameRule<T> extends AbstractNominable implements IGameRule
 
 	@Override
 	public void reset() {
-		value = defaultValue;
+		setValue(getDefaultValue());
 	}
 
 	@Override
