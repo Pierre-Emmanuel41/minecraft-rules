@@ -30,6 +30,12 @@ public class NaturalRegenerationGameRule extends EventGameRule<Boolean> {
 	}
 
 	@Override
+	public void stop() {
+		super.stop();
+		setGameRule(GameRule.NATURAL_REGENERATION, getDefaultValue());
+	}
+
+	@Override
 	protected boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		try {
 			if (args[0].equals("true"))
