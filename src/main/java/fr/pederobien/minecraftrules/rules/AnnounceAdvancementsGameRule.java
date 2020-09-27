@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 
 import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
-import fr.pederobien.minecraftmanagers.WorldManager;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.impl.RunnableGameRule;
 
@@ -31,13 +30,7 @@ public class AnnounceAdvancementsGameRule extends RunnableGameRule<Boolean> {
 	@Override
 	public void start() {
 		super.start();
-		setAnnounceAdvancements(getValue());
-	}
-
-	@Override
-	public void stop() {
-		super.stop();
-		setAnnounceAdvancements(getDefaultValue());
+		setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getValue());
 	}
 
 	@Override
@@ -68,11 +61,5 @@ public class AnnounceAdvancementsGameRule extends RunnableGameRule<Boolean> {
 		default:
 			return Arrays.asList();
 		}
-	}
-
-	private void setAnnounceAdvancements(boolean value) {
-		WorldManager.OVERWORLD.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, value);
-		WorldManager.NETHER_WORLD.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, value);
-		WorldManager.END_WORLD.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, value);
 	}
 }

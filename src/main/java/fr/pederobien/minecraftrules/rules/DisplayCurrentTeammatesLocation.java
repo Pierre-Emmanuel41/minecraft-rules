@@ -43,13 +43,13 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 	@Override
 	public void start() {
 		super.start();
-		setSendCommandFeedBackValue(false);
+		setGameRule(GameRule.SEND_COMMAND_FEEDBACK, false);
 	}
 
 	@Override
 	public void stop() {
 		super.stop();
-		setSendCommandFeedBackValue(true);
+		setGameRule(GameRule.SEND_COMMAND_FEEDBACK, true);
 	}
 
 	@Override
@@ -109,11 +109,5 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 		default:
 			return Arrays.asList();
 		}
-	}
-
-	private void setSendCommandFeedBackValue(boolean value) {
-		WorldManager.OVERWORLD.setGameRule(GameRule.SEND_COMMAND_FEEDBACK, value);
-		WorldManager.NETHER_WORLD.setGameRule(GameRule.SEND_COMMAND_FEEDBACK, value);
-		WorldManager.END_WORLD.setGameRule(GameRule.SEND_COMMAND_FEEDBACK, value);
 	}
 }
