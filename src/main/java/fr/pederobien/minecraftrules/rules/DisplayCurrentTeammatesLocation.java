@@ -28,7 +28,7 @@ public class DisplayCurrentTeammatesLocation extends PeriodicGameRule<Boolean> {
 
 	public DisplayCurrentTeammatesLocation() {
 		super("displayCurrentTeamMatesLocation", true, Boolean.class, EGameRuleMessageCode.DISPLAY_CURRENT_TEAMMATES_LOCATION__EXPLANATION);
-		setPeriod(20);
+		setPeriod(10);
 	}
 
 	@Override
