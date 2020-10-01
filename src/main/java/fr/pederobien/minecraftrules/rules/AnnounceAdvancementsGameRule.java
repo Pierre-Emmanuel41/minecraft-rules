@@ -8,7 +8,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
-import fr.pederobien.minecraftgameplateform.utils.Plateform;
 import fr.pederobien.minecraftrules.EGameRuleMessageCode;
 import fr.pederobien.minecraftrules.impl.RunnableGameRule;
 
@@ -21,16 +20,20 @@ public class AnnounceAdvancementsGameRule extends RunnableGameRule<Boolean> {
 	@Override
 	public void setValue(Boolean value) {
 		super.setValue(value);
-		if (isRunning() && !value)
-			stop();
-		else if (!isRunning() && Plateform.getGameConfigurationContext().isRunning() && value)
-			start();
+		if (isRunning())
+			setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getValue());
 	}
 
 	@Override
 	public void start() {
 		super.start();
 		setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getValue());
+	}
+
+	@Override
+	public void stop() {
+		super.stop();
+		setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getDefaultValue());
 	}
 
 	@Override
