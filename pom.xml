@@ -59,6 +59,14 @@
 					<include>*.xml</include>
 				</includes>
 			</resource>
+			<resource>
+				<targetPath>./resources/dictionaries/Turkish</targetPath>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources/dictionaries/Turkish</directory>
+				<includes>
+					<include>*.xml</include>
+				</includes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
