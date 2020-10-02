@@ -43,6 +43,9 @@ public class RulesPlugin extends JavaPlugin {
 
 		// Registering English dictionaries
 		registerDictionary("English", "GameRule.xml");
+
+		// Registering Turkish dictionaries
+		registerDictionary("Turkish", "GameRule.xml");
 	}
 
 	private void registerDictionary(String parent, String... dictionaryNames) {
