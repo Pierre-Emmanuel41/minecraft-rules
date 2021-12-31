@@ -1,11 +1,11 @@
-package fr.pederobien.minecraftrules.impl;
+package fr.pederobien.minecraft.rules.impl;
 
 import org.bukkit.scheduler.BukkitTask;
 
+import fr.pederobien.minecraft.rules.RulesPlugin;
+import fr.pederobien.minecraft.rules.interfaces.IPeriodicGameRule;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
 import fr.pederobien.minecraftmanagers.BukkitManager;
-import fr.pederobien.minecraftrules.RulesPlugin;
-import fr.pederobien.minecraftrules.interfaces.IPeriodicGameRule;
 
 public abstract class PeriodicGameRule<T> extends RunnableGameRule<T> implements IPeriodicGameRule<T> {
 	private long period;

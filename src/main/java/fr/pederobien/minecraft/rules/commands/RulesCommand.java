@@ -1,9 +1,11 @@
-package fr.pederobien.minecraftrules.commands;
+package fr.pederobien.minecraft.rules.commands;
 
 import java.time.LocalTime;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import fr.pederobien.minecraft.rules.EGameRuleMessageCode;
+import fr.pederobien.minecraft.rules.impl.GameRule;
 import fr.pederobien.minecraftgameplateform.commands.AbstractSimpleCommand;
 import fr.pederobien.minecraftgameplateform.interfaces.editions.IPlateformCodeSender;
 import fr.pederobien.minecraftgameplateform.interfaces.element.IGame;
@@ -11,8 +13,6 @@ import fr.pederobien.minecraftgameplateform.interfaces.runtime.timeline.IObsTime
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
 import fr.pederobien.minecraftmanagers.EColor;
 import fr.pederobien.minecraftmanagers.MessageManager.DisplayOption;
-import fr.pederobien.minecraftrules.EGameRuleMessageCode;
-import fr.pederobien.minecraftrules.impl.GameRule;
 
 public class RulesCommand extends AbstractSimpleCommand {
 	private IObsTimeLine pvpActivator;

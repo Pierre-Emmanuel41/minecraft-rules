@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules;
+package fr.pederobien.minecraft.rules;
 
 import fr.pederobien.minecraftdictionary.impl.Permission;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;

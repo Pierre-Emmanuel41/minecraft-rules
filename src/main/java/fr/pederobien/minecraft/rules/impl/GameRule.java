@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules.impl;
+package fr.pederobien.minecraft.rules.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,21 +12,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 
+import fr.pederobien.minecraft.rules.EGameRuleMessageCode;
+import fr.pederobien.minecraft.rules.interfaces.IGameRule;
+import fr.pederobien.minecraft.rules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftdevelopmenttoolkit.interfaces.messagecode.IMessageCodeSimpleMapEdition;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
 import fr.pederobien.minecraftgameplateform.impl.editions.AbstractSimpleMapEdition;
 import fr.pederobien.minecraftgameplateform.impl.element.AbstractNominable;
 import fr.pederobien.minecraftmanagers.WorldManager;
-import fr.pederobien.minecraftrules.EGameRuleMessageCode;
-import fr.pederobien.minecraftrules.interfaces.IGameRule;
-import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
-import fr.pederobien.minecraftrules.rules.AnnounceAdvancementsGameRule;
-import fr.pederobien.minecraftrules.rules.DisplayCurrentTeammatesLocation;
-import fr.pederobien.minecraftrules.rules.MaxProtectionOnDiamondsGameRule;
-import fr.pederobien.minecraftrules.rules.MobsNotAllowedToSpawnGameRule;
-import fr.pederobien.minecraftrules.rules.NaturalRegenerationGameRule;
-import fr.pederobien.minecraftrules.rules.PvpGameRule;
-import fr.pederobien.minecraftrules.rules.RevivePlayerNearTeamMateGameRule;
 
 public abstract class GameRule<T> extends AbstractNominable implements IGameRule<T> {
 	/**

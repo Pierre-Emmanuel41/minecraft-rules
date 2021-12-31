@@ -1,7 +1,7 @@
-package fr.pederobien.minecraftrules.impl;
+package fr.pederobien.minecraft.rules.impl;
 
+import fr.pederobien.minecraft.rules.interfaces.IRunnableGameRule;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
-import fr.pederobien.minecraftrules.interfaces.IRunnableGameRule;
 
 public abstract class RunnableGameRule<T> extends GameRule<T> implements IRunnableGameRule<T> {
 	private boolean isRunning;

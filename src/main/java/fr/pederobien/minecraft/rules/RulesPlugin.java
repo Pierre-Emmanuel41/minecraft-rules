@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules;
+package fr.pederobien.minecraft.rules;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
@@ -7,9 +7,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import fr.pederobien.dictionary.interfaces.IDictionaryParser;
+import fr.pederobien.minecraft.rules.commands.RulesCommand;
+import fr.pederobien.minecraft.rules.impl.GameRule;
 import fr.pederobien.minecraftgameplateform.utils.Plateform;
-import fr.pederobien.minecraftrules.commands.RulesCommand;
-import fr.pederobien.minecraftrules.impl.GameRule;
 
 public class RulesPlugin extends JavaPlugin {
 	private static Plugin plugin;

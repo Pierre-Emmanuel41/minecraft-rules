@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules.interfaces;
+package fr.pederobien.minecraft.rules.interfaces;
 
 import org.bukkit.event.Listener;
 

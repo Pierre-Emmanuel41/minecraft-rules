@@ -32,8 +32,7 @@
 	</dependencies>
 	
 	<build>
-		<finalName>minecraft-rules</finalName>
-		<sourceDirectory>src/main/java</sourceDirectory>
+		<finalName>minecraft-rules_v${project.version}</finalName>
 		<resources>
 			<resource>
 				<targetPath>.</targetPath>

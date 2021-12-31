@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules.interfaces;
+package fr.pederobien.minecraft.rules.interfaces;
 
 public interface IRunnableGameRule<T> extends IGameRule<T> {
 

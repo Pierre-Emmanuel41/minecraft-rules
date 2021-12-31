@@ -1,4 +1,4 @@
-package fr.pederobien.minecraftrules.interfaces;
+package fr.pederobien.minecraft.rules.interfaces;
 
 import fr.pederobien.minecraftdevelopmenttoolkit.interfaces.messagecode.IMessageCodeSimpleMapEdition;
 import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
