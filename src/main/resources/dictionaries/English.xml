@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+	<name>Game</name>
+	<version>1.0</version>
+	<locales>
+		<locale>en</locale>
+		<locale>en-EN</locale>
+		<locale>en-GB</locale>
+		<locale>en-UK</locale>
+		<locale>en-US</locale>
+		<locale>en-CA</locale>
+	</locales>
+	<messages>
+		<message>
+			<code>GAME_RULE__TRUE</code>
+			<value>True</value>
+		</message>
+		<message>
+			<code>GAME_RULE__FALSE</code>
+			<value>False</value>
+		</message>
+		<message>
+			<code>GAME_RULE__BOOLEAN_BAD_FORMAT</code>
+			<value>A boolean</value>
+		</message>
+		<message>
+			<code>GAME_RULE__INTEGER_BAD_FORMAT</code>
+			<value>An integer</value>
+		</message>
+		<message>
+			<code>RULES__EXPLANATION</code>
+			<value>To enable/disable and modify rules</value>
+		</message>
+		<message>
+			<code>GAME_RULE__RESET__EXPLANATION</code>
+			<value>Set the value of this game rule to its default value</value>
+		</message>
+		<message>
+			<code>GAME_RULE__RESET__VALUE_RESET</code>
+			<value>The value of %s is now set to: %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__GET__EXPLANATION</code>
+			<value>To display the value of a game rule</value>
+		</message>
+		<message>
+			<code>GAME_RULE__GET__DISPLAY</code>
+			<value>The value of %s is: %s (default: %s)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP__EXPLANATION</code>
+			<value>To modify the pvp game rule value</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP_SET__VALUE_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP_SET__VALUE_UPDATED</code>
+			<value>The %s rule value is now set to: %s (in game)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP__COUNT_DOWN</code>
+			<value>Enabling PVP in %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__ENCHANT_REMOVED</code>
+			<value>Removing enchantment %s (max authorized: %s)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_COMPLETION</code>
+			<value>&lt;maxLevel&gt;</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the level is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_UPDATED</code>
+			<value>The max level of rule %s is now set to: %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
+			<value>To set the max level of the protection enchantment on diamonds armor pieces</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION</code>
+			<value>To set whether or not a respawning player should be teleported to a team mate</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_UPDATED</code>
+			<value>The %s rule value is now set to: %s (in game)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS__EXPLANATION</code>
+			<value>To enable or disable the advancements announcement</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS_SET__VALUE_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS_SET__VALUE_IS_UPDATED</code>
+			<value>The %s rule value is now set to: %s (in game)</value>
+		</message>
+		<message>
+			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<value>To set if players can regenerate health naturally through their hunger bar</value>
+		</message>
+		<message>
+			<code>GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_UPDATED</code>
+			<value>The %s rule value is now set to: %s (in game)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN__EXPLANATION</code>
+			<value>To specify which mobs cannot spawn during a game</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ALL_MOBS_ALLOWED</code>
+			<value>All mobs are allowed to spawn</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__MOB_NOT_FOUND</code>
+			<value>The mobs %s does not exist</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ONE_MOB_NOT_ALLOWED</code>
+			<value>The %s is not allowed to spawn (in game)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__SEVERAL_MOBS_NOT_ALLOWED</code>
+			<value>List of not allowed mobs to spawn (in game) :%n%s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION__EXPLANATION</code>
+			<value>To enable or disable the display of player's team mates location</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_MISSING</code>
+			<value>Cannot modify %s rule value, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED</code>
+			<value>The %s rule value is now set to: %s (in game)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__EXPLANATION</code>
+			<value>To enable or disable a rule during a game</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__VALUE_IS_MISSING</code>
+			<value>Cannot enable or disable %s rule, the value is missing</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__RULE_ENABLED</code>
+			<value>Rule %s is enabled in game</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__RULE_DISABLED</code>
+			<value>Rule %s is disabled in game</value>
+		</message>
+	</messages>
+</dictionary>

@@ -1,67 +1,48 @@
 package fr.pederobien.minecraft.rules.impl;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.bukkit.GameRule;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 
-import fr.pederobien.minecraft.rules.EGameRuleMessageCode;
-import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
+import fr.pederobien.minecraft.game.event.GameStartPostEvent;
+import fr.pederobien.minecraft.game.interfaces.IGame;
+import fr.pederobien.minecraft.rules.ERuleCode;
+import fr.pederobien.utils.IPausable.PausableState;
+import fr.pederobien.utils.event.EventHandler;
+import fr.pederobien.utils.event.EventManager;
+import fr.pederobien.utils.event.IEventListener;
 
-public class AnnounceAdvancementsGameRule extends RunnableGameRule<Boolean> {
+public class AnnounceAdvancementsGameRule extends Rule<Boolean> implements IEventListener {
 
-	public AnnounceAdvancementsGameRule() {
-		super("announceAdvancements", true, Boolean.class, EGameRuleMessageCode.ANNOUNCE_ADVANCEMENTS_GAME_RULE__EXPLANATION);
+	/**
+	 * Creates a rule to enable or disable the players advancements announcement while the game is in progress.
+	 * 
+	 * @param game The game associated to this rule.
+	 */
+	public AnnounceAdvancementsGameRule(IGame game) {
+		super(game, "announceAdvancements", true, ERuleCode.GAME_RULE__ANNOUNCE_ADVANCEMENTS__EXPLANATION);
+		EventManager.registerListener(this);
 	}
 
 	@Override
 	public void setValue(Boolean value) {
 		super.setValue(value);
-		if (isRunning())
+
+		if (getGame().getState() != PausableState.NOT_STARTED && isEnable())
 			setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getValue());
 	}
 
-	@Override
-	public void start() {
-		super.start();
+	@EventHandler
+	private void onGameStart(GameStartPostEvent event) {
+		if (!event.getGame().equals(getGame()) && isEnable())
+			return;
+
 		setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getValue());
 	}
 
-	@Override
-	public void stop() {
-		super.stop();
+	@EventHandler
+	private void onGameStop(GameStartPostEvent event) {
+		if (!event.getGame().equals(getGame()) && isEnable())
+			return;
+
 		setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, getDefaultValue());
-	}
-
-	@Override
-	protected boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		try {
-			String value = args[0];
-			if (value.equals("true"))
-				setValue(true);
-			else if (value.equals("false"))
-				setValue(false);
-			else {
-				sendSynchro(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
-				return false;
-			}
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), value);
-		} catch (IndexOutOfBoundsException e) {
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	protected List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		switch (args.length) {
-		case 1:
-			return Arrays.asList("true", "false");
-		default:
-			return Arrays.asList();
-		}
 	}
 }

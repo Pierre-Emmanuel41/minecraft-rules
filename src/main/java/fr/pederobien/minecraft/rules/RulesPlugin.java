@@ -1,64 +1,48 @@
 package fr.pederobien.minecraft.rules;
 
 import java.io.FileNotFoundException;
-import java.nio.file.Path;
 
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import fr.pederobien.dictionary.interfaces.IDictionaryParser;
-import fr.pederobien.minecraft.rules.commands.RulesCommand;
-import fr.pederobien.minecraft.rules.impl.GameRule;
-import fr.pederobien.minecraftgameplateform.utils.Plateform;
+import fr.pederobien.dictionary.exceptions.MessageRegisteredException;
+import fr.pederobien.dictionary.impl.JarXmlDictionaryParser;
+import fr.pederobien.minecraft.dictionary.impl.MinecraftDictionaryContext;
+import fr.pederobien.utils.AsyncConsole;
 
 public class RulesPlugin extends JavaPlugin {
-	private static Plugin plugin;
+	private static final String DICTIONARY_FOLDER = "resources/dictionaries/";
+
+	private static Plugin instance;
 
 	/**
-	 * @return The plugin associated to this rules plugin.
+	 * @return The instance of this plugin.
 	 */
-	public static Plugin get() {
-		return plugin;
+	public static Plugin instance() {
+		return instance;
 	}
 
 	@Override
 	public void onEnable() {
-		Plateform.getPluginHelper().register(this);
-		plugin = this;
-
-		new RulesCommand(this);
+		instance = this;
 
 		registerDictionaries();
 	}
 
-	@Override
-	public void onDisable() {
-		GameRule.RUNNABLE_RULES.forEach(gameRule -> gameRule.stop());
-		GameRule.RULES.forEach(gameRule -> gameRule.reset());
-	}
-
 	private void registerDictionaries() {
-		String[] dictionaries = new String[] { "GameRule.xml" };
-		// Registering French dictionaries
-		registerDictionary("French", dictionaries);
-
-		// Registering English dictionaries
-		registerDictionary("English", dictionaries);
-
-		// Registering Turkish dictionaries
-		registerDictionary("Turkish", dictionaries);
-	}
-
-	private void registerDictionary(String parent, String... dictionaryNames) {
-		Path jarPath = Plateform.ROOT.getParent().resolve(getName().concat(".jar"));
-		String dictionariesFolder = "resources/dictionaries/".concat(parent).concat("/");
-		for (String name : dictionaryNames)
-			registerDictionary(Plateform.getDefaultDictionaryParser(dictionariesFolder.concat(name)), jarPath);
-	}
-
-	private void registerDictionary(IDictionaryParser parser, Path jarPath) {
 		try {
-			Plateform.getNotificationCenter().getDictionaryContext().register(parser, jarPath);
+			JarXmlDictionaryParser dictionaryParser = new JarXmlDictionaryParser(getFile().toPath());
+
+			MinecraftDictionaryContext context = MinecraftDictionaryContext.instance();
+			String[] dictionaries = new String[] { "English.xml", "French.xml" };
+			for (String dictionary : dictionaries)
+				try {
+					context.register(dictionaryParser.parse(DICTIONARY_FOLDER.concat(dictionary)));
+				} catch (MessageRegisteredException e) {
+					AsyncConsole.print(e);
+					for (StackTraceElement element : e.getStackTrace())
+						AsyncConsole.print(element);
+				}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dictionary>
+	<name>Game</name>
+	<version>1.0</version>
+	<locales>
+		<locale>fr</locale>
+		<locale>fr-FR</locale>
+		<locale>fr-CA</locale>
+	</locales>
+	<messages>
+		<message>
+			<code>GAME_RULE__TRUE</code>
+			<value>Vrai</value>
+		</message>
+		<message>
+			<code>GAME_RULE__FALSE</code>
+			<value>Faux</value>
+		</message>
+		<message>
+			<code>GAME_RULE__BOOLEAN_BAD_FORMAT</code>
+			<value>Un booléen</value>
+		</message>
+		<message>
+			<code>GAME_RULE__INTEGER_BAD_FORMAT</code>
+			<value>Un entier</value>
+		</message>
+		<message>
+			<code>RULES__EXPLANATION</code>
+			<value>Pour activer/désactiver et modifier les règles</value>
+		</message>
+		<message>
+			<code>GAME_RULE__RESET__EXPLANATION</code>
+			<value>Pour réinitialiser la valeur de la règle</value>
+		</message>
+		<message>
+			<code>GAME_RULE__RESET__VALUE_RESET</code>
+			<value>La valeur de %s est : %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__GET__EXPLANATION</code>
+			<value>Pour afficher la valeur d'une règle</value>
+		</message>
+		<message>
+			<code>GAME_RULE__GET__DISPLAY</code>
+			<value>La valeur de %s est : %s (Valeur par défaut : %s)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP__EXPLANATION</code>
+			<value>Pour modifier la valeur de la règle de jeu PVP</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP_SET__VALUE_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, il manque la valeur</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP_SET__VALUE_UPDATED</code>
+			<value>la valeur de la règle %s est : %s (pendant une partie)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP__COUNT_DOWN</code>
+			<value>Activation du PVP dans %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__ENCHANT_REMOVED</code>
+			<value>Suppression de l'enchantement %s (autorisé au maximum : %s)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_COMPLETION</code>
+			<value>&lt;niveauMax&gt;</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, Le niveau est manquant</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENCHANT__LEVEL_UPDATED</code>
+			<value>le niveau de la règle %s est : %s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__EXPLANATION</code>
+			<value>Pour modifier le niveau maximum de l'enchantement protection pour les pièces d'armures en diamands</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION</code>
+			<value>Pour définir si un joueur qui respawn doit être téléporté près d'un joueur de son équipe</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, la valeur est manquante</value>
+		</message>
+		<message>
+			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_UPDATED</code>
+			<value>la valeur de la règle %s est : %s (pendant une partie)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS__EXPLANATION</code>
+			<value>Pour activer ou désactiver l'annonce des avancements</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS_SET__VALUE_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, la valeur est manquante</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ANNOUNCE_ADVANCEMENTS_SET__VALUE_IS_UPDATED</code>
+			<value>La valeur de la règle %s est : %s (pendant une partie)</value>
+		</message>
+		<message>
+			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<value>Pour définir si les joueurs peuvent régénérer leur santé naturellement grâce à leur barre de faim.</value>
+		</message>
+		<message>
+			<code>GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, il manque la valeur</value>
+		</message>
+		<message>
+			<code>GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_UPDATED</code>
+			<value>La valeur de la règle %s est : %s (pendant une partie)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN__EXPLANATION</code>
+			<value>Pour définir quels mobs ne peuvent pas spawner pendant une partie</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ALL_MOBS_ALLOWED</code>
+			<value>Tous les mobs sont autorisés à spawner</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__MOB_NOT_FOUND</code>
+			<value>Le mob %s n'existe pas</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ONE_MOB_NOT_ALLOWED</code>
+			<value>Le mob %s n'est pas autorisé à spawner (pendant une partie)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__SEVERAL_MOBS_NOT_ALLOWED</code>
+			<value>Liste des mobs qui ne sont pas autorisés à spawner pendant une partie :%n%s</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION__EXPLANATION</code>
+			<value>Pour activer ou désactiver l'affichage de la position des coéquipiers des joueurs</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_MISSING</code>
+			<value>Impossible de modifier la valeur de la règle %s, la valeur est manquante</value>
+		</message>
+		<message>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED</code>
+			<value>la valeur de la règle %s est : %s (pendant une partie)</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__EXPLANATION</code>
+			<value>Pour activer ou désactiver une règle pendant une partie</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__VALUE_IS_MISSING</code>
+			<value>Impossible d'activer ou de désactiver la règle %s, la valeur est manquante</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__RULE_ENABLED</code>
+			<value>La règle %s est activée pendant une partie</value>
+		</message>
+		<message>
+			<code>GAME_RULE__ENABLE__RULE_DISABLED</code>
+			<value>La règle %s est désactivée pendant une partie</value>
+		</message>
+	</messages>
+</dictionary>

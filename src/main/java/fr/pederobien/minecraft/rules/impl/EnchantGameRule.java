@@ -2,12 +2,11 @@ package fr.pederobien.minecraft.rules.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Material;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -16,35 +15,47 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.ItemStack;
 
-import fr.pederobien.minecraft.rules.EGameRuleMessageCode;
-import fr.pederobien.minecraftdictionary.interfaces.IMinecraftMessageCode;
-import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
+import fr.pederobien.minecraft.game.interfaces.IGame;
+import fr.pederobien.minecraft.rules.ERuleCode;
+import fr.pederobien.utils.IPausable.PausableState;
 
 public class EnchantGameRule extends EventGameRule<Integer> {
 	private Enchantment enchantment;
 	private List<Material> items;
 
-	public EnchantGameRule(String name, Enchantment enchantment, IMinecraftMessageCode explanation) {
-		super(name, enchantment.getMaxLevel(), Integer.class, explanation);
+	/**
+	 * Creates a game rule in order to specify enchant level restrictions while the game is in progress.
+	 * 
+	 * @param game         The game to which this rule is associated.
+	 * @param name         The game rule name.
+	 * @param defaultValue The default game rule value.
+	 * @param explanation  The code used to explain what does this rule do.
+	 */
+	public EnchantGameRule(IGame game, String name, Enchantment enchantment, IMinecraftCode explanation) {
+		super(game, name, enchantment.getMaxLevel(), explanation);
 		this.enchantment = enchantment;
 		items = new ArrayList<Material>();
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onEnchantItemEvent(EnchantItemEvent event) {
-		if (!isRunning() || !items.contains(event.getItem().getType()))
+	private void onEnchantItemEvent(EnchantItemEvent event) {
+		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED || !items.contains(event.getItem().getType()))
 			return;
-		for (Map.Entry<Enchantment, Integer> entry : event.getEnchantsToAdd().entrySet())
+
+		Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getEnchantsToAdd().entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<Enchantment, Integer> entry = iterator.next();
 			if (entry.getKey().equals(enchantment) && entry.getValue() > getValue()) {
-				event.setCancelled(true);
-				getEdition().sendNotSynchro(event.getEnchanter(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT, enchantment.getKey().getKey(), getValue(),
-						entry.getValue());
+				entry.setValue(entry.getValue());
+				send(eventBuilder(event.getEnchanter(), ERuleCode.GAME_RULE__ENCHANT__ENCHANT_REMOVED, enchantment.getKey().getKey(), getValue()));
 			}
+		}
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
-	public void onInventoryClickEvent(InventoryClickEvent event) {
-		if (!isRunning() || !(event.getInventory() instanceof AnvilInventory))
+	private void onInventoryClickEvent(InventoryClickEvent event) {
+		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED || !(event.getInventory() instanceof AnvilInventory))
 			return;
 
 		AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();
@@ -53,42 +64,32 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 		if (result == null || !items.contains(result.getType()))
 			return;
 
-		for (Map.Entry<Enchantment, Integer> entry : result.getEnchantments().entrySet()) {
+		Iterator<Map.Entry<Enchantment, Integer>> iterator = result.getEnchantments().entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<Enchantment, Integer> entry = iterator.next();
 			if (entry.getKey().equals(enchantment) && entry.getValue() > getValue()) {
-				event.setCancelled(true);
-				getEdition().sendNotSynchro(event.getWhoClicked(), EGameRuleMessageCode.ENCHANT_GAME_RULE__CANNOT_ENCHANT, enchantment.getKey().getKey(), getValue(),
-						entry.getValue());
+				entry.setValue(entry.getValue());
+				send(eventBuilder(event.getWhoClicked(), ERuleCode.GAME_RULE__ENCHANT__ENCHANT_REMOVED, enchantment.getKey().getKey(), getValue()));
 			}
 		}
 	}
 
-	@Override
-	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		try {
-			setValue(Integer.parseInt(args[0]));
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED_IN_GAME, getName(), getValue());
-		} catch (IndexOutOfBoundsException e) {
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
-			return false;
-		} catch (NumberFormatException e) {
-			sendSynchro(sender, ECommonMessageCode.COMMON_BAD_INTEGER_FORMAT);
-			return false;
-		}
-		return true;
-	}
-
-	@Override
-	public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		switch (args.length) {
-		case 1:
-			return Arrays.asList(getEdition().getMessage(sender, EGameRuleMessageCode.ENCHANT_GAME_RULE__ON_TAB_COMPLETE));
-		default:
-			return Arrays.asList();
-		}
-	}
-
+	/**
+	 * Set the items on which the restriction are done.
+	 * 
+	 * @param items The list of item on which the enchant restriction occurs.
+	 * 
+	 * @return This game rule.
+	 */
 	public EnchantGameRule setTargetItems(Material... items) {
 		this.items = Arrays.asList(items);
 		return this;
+	}
+
+	/**
+	 * @return The enchantment concerned by this game rule.
+	 */
+	public Enchantment getEnchantment() {
+		return enchantment;
 	}
 }

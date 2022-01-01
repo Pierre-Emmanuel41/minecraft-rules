@@ -1,56 +1,85 @@
 package fr.pederobien.minecraft.rules.impl;
 
-import java.util.Arrays;
-import java.util.List;
+import java.time.LocalTime;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+import fr.pederobien.minecraft.game.event.GameStartPostEvent;
+import fr.pederobien.minecraft.game.event.GameStopPostEvent;
+import fr.pederobien.minecraft.game.interfaces.IGame;
+import fr.pederobien.minecraft.game.interfaces.time.ITimeLine;
+import fr.pederobien.minecraft.platform.Platform;
+import fr.pederobien.minecraft.platform.event.ConfigurableValueChangeEvent;
+import fr.pederobien.minecraft.platform.interfaces.IPvpTimeConfigurable;
+import fr.pederobien.minecraft.rules.ERuleCode;
+import fr.pederobien.utils.IPausable.PausableState;
+import fr.pederobien.utils.event.EventHandler;
+import fr.pederobien.utils.event.EventManager;
+import fr.pederobien.utils.event.IEventListener;
 
-import fr.pederobien.minecraft.rules.EGameRuleMessageCode;
-import fr.pederobien.minecraftgameplateform.dictionary.ECommonMessageCode;
-import fr.pederobien.minecraftmanagers.WorldManager;
+public class PvpGameRule extends Rule<Boolean> implements IEventListener {
+	private boolean registered;
+	private PvpTimeLineObserver timelineObserver;
 
-public class PvpGameRule extends GameRule<Boolean> {
-
-	public PvpGameRule() {
-		super("pvp", false, Boolean.class, EGameRuleMessageCode.PVP_GAME_RULE__EXPLANATION);
+	/**
+	 * Creates a game rule to enable or disable PVP while the game is in progress. This rule works if and only if the given game
+	 * implements the {@link IPvpTimeConfigurable} interface. Then according to the value, the PVP will be enabled either at the
+	 * beginning of the game or after a certain time of play.
+	 * 
+	 * @param game The game associated to this rule.
+	 */
+	public PvpGameRule(IGame game) {
+		super(game, "pvp", false, ERuleCode.GAME_RULE__PVP__EXPLANATION);
+		timelineObserver = new PvpTimeLineObserver();
+		EventManager.registerListener(this);
 	}
 
 	@Override
 	public void setValue(Boolean value) {
 		super.setValue(value);
-		WorldManager.OVERWORLD.setPVP(value);
-		WorldManager.NETHER_WORLD.setPVP(value);
-		WorldManager.END_WORLD.setPVP(value);
+
+		if (!isEnable() || !(getGame() instanceof IPvpTimeConfigurable) || getGame().getState() == PausableState.NOT_STARTED)
+			return;
+
+		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) getGame();
+
+		// Case 1: Rule registered for the PVP time and finally disabling the PVP
+		if (registered && !value)
+			Platform.get(getGame().getPlugin()).getTimeLine().unregister(pvp.getPvpTime().get(), timelineObserver);
+
+		// Case 2: Rule not registered for the PVP time and finally enabling the PVP
+		else if (!registered && value)
+			Platform.get(getGame().getPlugin()).getTimeLine().register(pvp.getPvpTime().get(), timelineObserver);
 	}
 
-	@Override
-	protected boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		try {
-			String value = args[0];
-			if (value.equals("true"))
-				setValue(true);
-			else if (value.equals("false"))
-				setValue(false);
-			else {
-				sendSynchro(sender, ECommonMessageCode.COMMON_BAD_BOOLEAN_FORMAT);
-				return false;
-			}
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_DEFINED, getName(), value);
-		} catch (IndexOutOfBoundsException e) {
-			sendSynchro(sender, EGameRuleMessageCode.COMMON_VALUE_IS_MISSING, getName());
-			return false;
-		}
-		return true;
+	@EventHandler
+	private void onGameStart(GameStartPostEvent event) {
+		if (!isEnable() || !event.getGame().equals(getGame()) || !getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
+			return;
+
+		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
+		Platform.get(getGame().getPlugin()).getTimeLine().register(pvp.getPvpTime().get(), timelineObserver);
+		registered = true;
 	}
 
-	@Override
-	protected List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-		switch (args.length) {
-		case 1:
-			return Arrays.asList("true", "false");
-		default:
-			return Arrays.asList();
-		}
+	@EventHandler
+	private void onGameStop(GameStopPostEvent event) {
+		if (!isEnable() || !event.getGame().equals(getGame()) || !(event.getGame() instanceof IPvpTimeConfigurable))
+			return;
+
+		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
+		Platform.get(event.getGame().getPlugin()).getTimeLine().unregister(pvp.getPvpTime().get(), timelineObserver);
+	}
+
+	@EventHandler
+	private void onPvpTimeChange(ConfigurableValueChangeEvent event) {
+		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED)
+			return;
+
+		if (!(getGame() instanceof IPvpTimeConfigurable) || ((IPvpTimeConfigurable) getGame()).getPvpTime().equals(event.getConfigurable()))
+			return;
+
+		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) getGame();
+		ITimeLine timeLine = Platform.get(getGame().getPlugin()).getTimeLine();
+		timeLine.unregister((LocalTime) event.getOldValue(), timelineObserver);
+		timeLine.register(pvp.getPvpTime().get(), timelineObserver);
 	}
 }
