@@ -1,18 +1,17 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.impl.EGameCode;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.DisplayTeamMatesLocationGameRule;
 
-public class DisplayTeamMatesLocationRuleNode extends RuleNode<Boolean> {
-	private GetCurrentValueGameRuleNode<Boolean> getterNode;
-	private ResetGameRuleNode<Boolean> resetNode;
-	private EnableRuleNode<Boolean> enableNode;
+public class DisplayTeamMatesLocationRuleNode extends RuleNode<DisplayTeamMatesLocationGameRule> {
 	private SetDisplayTeamMatesLocationRuleNode setterNode;
 
 	/**
@@ -20,33 +19,9 @@ public class DisplayTeamMatesLocationRuleNode extends RuleNode<Boolean> {
 	 * 
 	 * @param rule The rule to enable or disable the display of player's team mates location.
 	 */
-	protected DisplayTeamMatesLocationRuleNode(DisplayTeamMatesLocationGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r != null);
-		add(getterNode = new GetCurrentValueGameRuleNode<Boolean>(rule));
-		add(resetNode = new ResetGameRuleNode<Boolean>(rule));
-		add(enableNode = new EnableRuleNode<Boolean>(rule));
+	protected DisplayTeamMatesLocationRuleNode(Supplier<DisplayTeamMatesLocationGameRule> rule) {
+		super(rule, "displayTeamMatesLocation", ERuleCode.GAME_RULE__DISPLAY_TEAM_MATES_LOCATION__EXPLANATION, r -> r != null);
 		add(setterNode = new SetDisplayTeamMatesLocationRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the current value of the {@link DisplayTeamMatesLocationGameRule}.
-	 */
-	public GetCurrentValueGameRuleNode<Boolean> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that resets the game rule value.
-	 */
-	public ResetGameRuleNode<Boolean> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<Boolean> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -56,15 +31,20 @@ public class DisplayTeamMatesLocationRuleNode extends RuleNode<Boolean> {
 		return setterNode;
 	}
 
-	public class SetDisplayTeamMatesLocationRuleNode extends RuleNode<Boolean> {
+	public class SetDisplayTeamMatesLocationRuleNode extends RuleNodeBase<DisplayTeamMatesLocationGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The rule that displays the team mate location wile the game is in progress.
 		 */
-		protected SetDisplayTeamMatesLocationRuleNode(DisplayTeamMatesLocationGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r != null && r.isEnable());
+		protected SetDisplayTeamMatesLocationRuleNode(Supplier<DisplayTeamMatesLocationGameRule> rule) {
+			super(rule, "set", null, r -> r != null);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override
@@ -95,7 +75,7 @@ public class DisplayTeamMatesLocationRuleNode extends RuleNode<Boolean> {
 			}
 
 			getRule().setValue(value);
-			sendSuccessful(sender, ERuleCode.GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED, getRule().getName());
+			sendSuccessful(sender, ERuleCode.GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED, getRule().getName(), getRule().getValue());
 			return true;
 		}
 	}

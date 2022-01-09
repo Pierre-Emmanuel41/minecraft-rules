@@ -23,6 +23,7 @@ import fr.pederobien.minecraft.rules.interfaces.IEntityTypeList;
 import fr.pederobien.utils.event.EventManager;
 
 public class EntityTypeList implements IEntityTypeList {
+	private static final String SEPARATOR = ", ";
 	private String name;
 	private Map<String, EntityType> entityTypes;
 	private Lock lock;
@@ -31,6 +32,26 @@ public class EntityTypeList implements IEntityTypeList {
 		this.name = name;
 		entityTypes = new LinkedHashMap<String, EntityType>();
 		lock = new ReentrantLock(true);
+	}
+
+	/**
+	 * Creates a new entity type list with the given name and parse the content to fill the list.
+	 * 
+	 * @param name    The list name.
+	 * @param content The content to parse.
+	 * @return A new entity type list.
+	 */
+	@SuppressWarnings("deprecation")
+	public static IEntityTypeList parse(String name, String content) {
+		IEntityTypeList list = new EntityTypeList(name);
+		String[] entityTypes = content.substring(1, content.length() - 1).split(SEPARATOR);
+		for (String type : entityTypes) {
+			EntityType theType = EntityType.fromName(type);
+			if (theType == null)
+				continue;
+			list.add(theType);
+		}
+		return list;
 	}
 
 	@Override
@@ -94,7 +115,7 @@ public class EntityTypeList implements IEntityTypeList {
 	@SuppressWarnings("deprecation")
 	@Override
 	public String toString() {
-		StringJoiner joiner = new StringJoiner(", ", "[", "]");
+		StringJoiner joiner = new StringJoiner(SEPARATOR, "[", "]");
 		forEach(type -> joiner.add(type.getName()));
 		return joiner.toString();
 	}

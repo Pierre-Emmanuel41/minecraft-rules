@@ -16,9 +16,10 @@ public class EventGameRule<T> extends Rule<T> implements Listener, ICodeSender {
 	 * @param name         The game rule name.
 	 * @param defaultValue The default game rule value.
 	 * @param explanation  The code used to explain what does this rule do.
+	 * @param parser       The parser used to save/load game rule values.
 	 */
-	protected EventGameRule(IGame game, String name, T defaultValue, IMinecraftCode explanation) {
-		super(game, name, defaultValue, explanation);
+	protected EventGameRule(IGame game, String name, T defaultValue, IMinecraftCode explanation, Parser<T> parser) {
+		super(game, name, defaultValue, explanation, parser);
 		RulesPlugin.instance().getServer().getPluginManager().registerEvents(this, RulesPlugin.instance());
 	}
 }

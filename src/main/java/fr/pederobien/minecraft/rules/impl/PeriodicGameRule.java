@@ -20,9 +20,10 @@ public abstract class PeriodicGameRule<T> extends Rule<T> implements IPeriodicGa
 	 * @param name         The name of this rule.
 	 * @param defaultValue The default rule value.
 	 * @param explanation  The code used to explain what does this rule do.
+	 * @param parser       The parser used to save/load game rule values.
 	 */
-	protected PeriodicGameRule(IGame game, String name, T defaultValue, IMinecraftCode explanation) {
-		super(game, name, defaultValue, explanation);
+	protected PeriodicGameRule(IGame game, String name, T defaultValue, IMinecraftCode explanation, Parser<T> parser) {
+		super(game, name, defaultValue, explanation, parser);
 	}
 
 	@Override
@@ -45,8 +46,7 @@ public abstract class PeriodicGameRule<T> extends Rule<T> implements IPeriodicGa
 	 * Register this game rule for the Bukkit scheduler in order to be executed later.
 	 */
 	protected void start() {
-		if (isEnable())
-			task = BukkitManager.getScheduler().runTaskTimer(RulesPlugin.instance(), this, 0, getPeriod());
+		task = BukkitManager.getScheduler().runTaskTimer(RulesPlugin.instance(), this, 0, getPeriod());
 	}
 
 	/**

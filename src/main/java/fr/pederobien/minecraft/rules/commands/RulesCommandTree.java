@@ -1,23 +1,22 @@
 package fr.pederobien.minecraft.rules.commands;
 
+import java.util.function.Function;
+import java.util.function.Supplier;
+
 import org.bukkit.GameRule;
 import org.bukkit.enchantments.Enchantment;
 
 import fr.pederobien.minecraft.commandtree.impl.MinecraftCodeRootNode;
-import fr.pederobien.minecraft.commandtree.interfaces.IMinecraftCodeNode;
-import fr.pederobien.minecraft.game.interfaces.IGame;
+import fr.pederobien.minecraft.commandtree.interfaces.IMinecraftCodeRootNode;
 import fr.pederobien.minecraft.rules.ERuleCode;
-import fr.pederobien.minecraft.rules.impl.AnnounceAdvancementsGameRule;
-import fr.pederobien.minecraft.rules.impl.DisplayTeamMatesLocationGameRule;
-import fr.pederobien.minecraft.rules.impl.MaxProtectionOnDiamondsGameRule;
-import fr.pederobien.minecraft.rules.impl.MobsNotAllowedToSpawnGameRule;
-import fr.pederobien.minecraft.rules.impl.NaturalRegenerationGameRule;
-import fr.pederobien.minecraft.rules.impl.PvpGameRule;
-import fr.pederobien.minecraft.rules.impl.RevivePlayerNearTeamMatesGameRule;
+import fr.pederobien.minecraft.rules.interfaces.IRule;
+import fr.pederobien.minecraft.rules.interfaces.IRuleConfigurable;
+import fr.pederobien.minecraft.rules.interfaces.IRuleList;
 import fr.pederobien.utils.event.IEventListener;
 
 public class RulesCommandTree implements IEventListener {
-	private IMinecraftCodeNode root;
+	private IMinecraftCodeRootNode root;
+	private Supplier<IRuleConfigurable> configurable;
 	private PvpRuleNode pvpNode;
 	private MaxProtectionOnDiamondsRuleNode maxProtectionOnDiamondsNode;
 	private RevivePlayerNearTeamMateRuleNode revivePlayerNearTeamMateNode;
@@ -31,21 +30,31 @@ public class RulesCommandTree implements IEventListener {
 	 * 
 	 * @param game The game associated to this rules command tree.
 	 */
-	public RulesCommandTree(IGame game) {
-		root = new MinecraftCodeRootNode("rules", ERuleCode.RULES__EXPLANATION, () -> true);
-		root.add(pvpNode = new PvpRuleNode(new PvpGameRule(game)));
-		root.add(maxProtectionOnDiamondsNode = new MaxProtectionOnDiamondsRuleNode(new MaxProtectionOnDiamondsGameRule(game)));
-		root.add(revivePlayerNearTeamMateNode = new RevivePlayerNearTeamMateRuleNode(new RevivePlayerNearTeamMatesGameRule(game)));
-		root.add(announceAdvancementsNode = new AnnounceAdvancementsRuleNode(new AnnounceAdvancementsGameRule(game)));
-		root.add(naturalRegenerationNode = new NaturalRegenerationRuleNode(new NaturalRegenerationGameRule(game)));
-		root.add(mobsNotAllowedToSpawnNode = new MobsNotAllowedToSpawnRuleNode(new MobsNotAllowedToSpawnGameRule(game)));
-		root.add(displayTeamMatesLocationNode = new DisplayTeamMatesLocationRuleNode(new DisplayTeamMatesLocationGameRule(game)));
+	public RulesCommandTree(Supplier<IRuleConfigurable> configurable) {
+		this.configurable = configurable;
+
+		root = new MinecraftCodeRootNode("rules", ERuleCode.RULES__EXPLANATION, () -> configurable.get() != null);
+		root.add(pvpNode = new PvpRuleNode(() -> getRule(rules -> rules.getPvpGameRule())));
+		root.add(maxProtectionOnDiamondsNode = new MaxProtectionOnDiamondsRuleNode(() -> getRule(rules -> rules.getMaxProtectionOnDiamondsGameRule())));
+		root.add(revivePlayerNearTeamMateNode = new RevivePlayerNearTeamMateRuleNode(() -> getRule(rules -> rules.getRevivePlayerNearTeamMatesGameRule())));
+		root.add(announceAdvancementsNode = new AnnounceAdvancementsRuleNode(() -> getRule(rules -> rules.getAnnounceAdvancementsGameRule())));
+		root.add(naturalRegenerationNode = new NaturalRegenerationRuleNode(() -> getRule(rules -> rules.getNaturalRegenerationGameRule())));
+		root.add(mobsNotAllowedToSpawnNode = new MobsNotAllowedToSpawnRuleNode(() -> getRule(rules -> rules.getMobsNotAllowedToSpawnGameRule())));
+		root.add(displayTeamMatesLocationNode = new DisplayTeamMatesLocationRuleNode(() -> getRule(rules -> rules.getDisplayTeamMatesLocationGameRule())));
+	}
+
+	/**
+	 * @return The list of rules.
+	 */
+	public IRuleList getRules() {
+		IRuleConfigurable rules = configurable.get();
+		return rules == null ? null : rules.getRules();
 	}
 
 	/**
 	 * @return The root of this command tree.
 	 */
-	public IMinecraftCodeNode getRoot() {
+	public IMinecraftCodeRootNode getRoot() {
 		return root;
 	}
 
@@ -96,5 +105,11 @@ public class RulesCommandTree implements IEventListener {
 	 */
 	public DisplayTeamMatesLocationRuleNode getDisplayTeamMatesLocationNode() {
 		return displayTeamMatesLocationNode;
+	}
+
+	private <T extends IRule<?>> T getRule(Function<IRuleList, T> selector) {
+		if (getRules() == null)
+			return null;
+		return selector.apply(getRules());
 	}
 }

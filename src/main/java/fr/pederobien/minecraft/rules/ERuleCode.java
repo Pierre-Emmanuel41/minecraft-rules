@@ -110,7 +110,7 @@ public enum ERuleCode implements IMinecraftCode {
 	GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_MISSING,
 
 	// Code when the displayTeamMatesLocation rule value is updated
-	GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED,
+	GAME_RULE__DISPLAY_TEAM_MATES_LOCATION_SET__VALUE_IS_UPDATED,
 
 	// Code for the "rules enable" command --------------------------------------
 	GAME_RULE__ENABLE__EXPLANATION,

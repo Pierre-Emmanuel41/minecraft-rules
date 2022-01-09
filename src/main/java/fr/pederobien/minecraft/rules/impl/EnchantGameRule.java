@@ -21,6 +21,7 @@ import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.utils.IPausable.PausableState;
 
 public class EnchantGameRule extends EventGameRule<Integer> {
+	private static final Parser<Integer> PARSER = new Parser<Integer>(value -> value.toString(), value -> Integer.parseInt(value));
 	private Enchantment enchantment;
 	private List<Material> items;
 
@@ -33,14 +34,14 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 	 * @param explanation  The code used to explain what does this rule do.
 	 */
 	public EnchantGameRule(IGame game, String name, Enchantment enchantment, IMinecraftCode explanation) {
-		super(game, name, enchantment.getMaxLevel(), explanation);
+		super(game, name, enchantment.getMaxLevel(), explanation, PARSER);
 		this.enchantment = enchantment;
 		items = new ArrayList<Material>();
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	private void onEnchantItemEvent(EnchantItemEvent event) {
-		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED || !items.contains(event.getItem().getType()))
+		if (getGame().getState() == PausableState.NOT_STARTED || !items.contains(event.getItem().getType()))
 			return;
 
 		Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getEnchantsToAdd().entrySet().iterator();
@@ -55,7 +56,7 @@ public class EnchantGameRule extends EventGameRule<Integer> {
 
 	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
 	private void onInventoryClickEvent(InventoryClickEvent event) {
-		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED || !(event.getInventory() instanceof AnvilInventory))
+		if (getGame().getState() == PausableState.NOT_STARTED || !(event.getInventory() instanceof AnvilInventory))
 			return;
 
 		AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();

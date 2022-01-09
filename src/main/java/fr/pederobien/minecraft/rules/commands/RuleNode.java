@@ -1,31 +1,41 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-import fr.pederobien.minecraft.commandtree.impl.MinecraftCodeNode;
 import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.rules.interfaces.IRule;
 
-public class RuleNode<T> extends MinecraftCodeNode {
-	private IRule<T> rule;
+public class RuleNode<T extends IRule<?>> extends RuleNodeBase<T> {
+	private GetCurrentValueGameRuleNode<T> getterNode;
+	private ResetGameRuleNode<T> resetNode;
 
 	/**
-	 * Create a rule node defined by a label, which correspond to its name, and an explanation.
+	 * Create a rule node defined by a label, which correspond to its name, and an explanation. This node already contains the node to
+	 * get the current game rule value, the node to reset the game rule value and the node to enable/disable the game rule.
 	 * 
 	 * @param rule        The rule associated to this node.
 	 * @param label       The name of the node.
 	 * @param explanation The explanation of the node.
 	 * @param isAvailable True if this node is available, false otherwise.
 	 */
-	protected RuleNode(IRule<T> rule, String label, IMinecraftCode explanation, Function<IRule<T>, Boolean> isAvailable) {
-		super(label, explanation, () -> isAvailable.apply(rule));
-		this.rule = rule;
+	protected RuleNode(Supplier<T> rule, String label, IMinecraftCode explanation, Function<T, Boolean> isAvailable) {
+		super(rule, label, explanation, isAvailable);
+		add(getterNode = new GetCurrentValueGameRuleNode<T>(rule));
+		add(resetNode = new ResetGameRuleNode<T>(rule));
 	}
 
 	/**
-	 * @return The rule associated to this node.
+	 * @return The node to display the current value of the rule.
 	 */
-	public IRule<T> getRule() {
-		return rule;
+	public GetCurrentValueGameRuleNode<T> getGetterNode() {
+		return getterNode;
+	}
+
+	/**
+	 * @return The node that reset the rule value.
+	 */
+	public ResetGameRuleNode<T> getResetNode() {
+		return resetNode;
 	}
 }

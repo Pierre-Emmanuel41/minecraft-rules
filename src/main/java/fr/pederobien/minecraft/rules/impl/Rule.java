@@ -6,7 +6,6 @@ import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.managers.WorldManager;
 import fr.pederobien.minecraft.rules.event.RuleChangePostEvent;
-import fr.pederobien.minecraft.rules.event.RuleEnableChangePostEvent;
 import fr.pederobien.minecraft.rules.interfaces.IRule;
 import fr.pederobien.utils.event.EventManager;
 
@@ -15,7 +14,7 @@ public class Rule<T> implements IRule<T> {
 	private IGame game;
 	private String name;
 	private T value, defaultValue;
-	private boolean isEnable;
+	private Parser<T> parser;
 
 	/**
 	 * Creates a game rule based on the given parameters.
@@ -24,12 +23,14 @@ public class Rule<T> implements IRule<T> {
 	 * @param name         The game rule name.
 	 * @param defaultValue The default game rule value.
 	 * @param explanation  The code used to explain what does this rule do.
+	 * @param parser       The parser used to save/load game rule values.
 	 */
-	protected Rule(IGame game, String name, T defaultValue, IMinecraftCode explanation) {
+	protected Rule(IGame game, String name, T defaultValue, IMinecraftCode explanation, Parser<T> parser) {
 		this.game = game;
 		this.name = name;
 		this.defaultValue = defaultValue;
 		this.explanation = explanation;
+		this.parser = parser;
 	}
 
 	@Override
@@ -73,18 +74,8 @@ public class Rule<T> implements IRule<T> {
 	}
 
 	@Override
-	public boolean isEnable() {
-		return isEnable;
-	}
-
-	@Override
-	public void setEnable(boolean isEnable) {
-		if (this.isEnable == isEnable)
-			return;
-
-		boolean oldEnable = this.isEnable;
-		this.isEnable = isEnable;
-		EventManager.callEvent(new RuleEnableChangePostEvent<T>(this, oldEnable));
+	public Parser<T> getParser() {
+		return parser;
 	}
 
 	/**

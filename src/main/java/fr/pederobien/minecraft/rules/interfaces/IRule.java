@@ -1,5 +1,7 @@
 package fr.pederobien.minecraft.rules.interfaces;
 
+import java.util.function.Function;
+
 import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 
@@ -43,14 +45,45 @@ public interface IRule<T> {
 	void reset();
 
 	/**
-	 * @return True if this rule is enabled.
+	 * @return The parser used to serialize/deserialize rule value and default value.
 	 */
-	boolean isEnable();
+	Parser<T> getParser();
 
-	/**
-	 * Set to true to enable this rule.
-	 * 
-	 * @param isEnable True if this rule is enabled, false otherwise.
-	 */
-	void setEnable(boolean isEnable);
+	public static class Parser<T> {
+		private Function<T, String> serializer;
+		private Function<String, T> deserializer;
+
+		/**
+		 * Creates a Parser in order to serialize and deserialize game rule value and default value.
+		 * 
+		 * @param serializer   The function to save game rule values.
+		 * @param deserializer The function to load game rule values.
+		 */
+		public Parser(Function<T, String> serializer, Function<String, T> deserializer) {
+			this.serializer = serializer;
+			this.deserializer = deserializer;
+		}
+
+		/**
+		 * Transforms the given value to a String in order to be saved.
+		 * 
+		 * @param value The value to transform.
+		 * 
+		 * @return The String representation of the given value.
+		 */
+		public String serialize(T value) {
+			return serializer.apply(value);
+		}
+
+		/**
+		 * Retrieve the value from the given String representation.
+		 * 
+		 * @param value The String representation of a value.
+		 * 
+		 * @return The value associated to the String representation.
+		 */
+		public T deserialize(String value) {
+			return deserializer.apply(value);
+		}
+	}
 }

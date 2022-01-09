@@ -1,19 +1,18 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.impl.EGameCode;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.MaxProtectionOnDiamondsGameRule;
 
-public class MaxProtectionOnDiamondsRuleNode extends RuleNode<Integer> {
-	private GetCurrentValueGameRuleNode<Integer> getterNode;
-	private ResetGameRuleNode<Integer> resetNode;
-	private EnableRuleNode<Integer> enableNode;
+public class MaxProtectionOnDiamondsRuleNode extends RuleNode<MaxProtectionOnDiamondsGameRule> {
 	private SetMaxProtectionOnDiamondsRuleNode setterNode;
 
 	/**
@@ -21,33 +20,9 @@ public class MaxProtectionOnDiamondsRuleNode extends RuleNode<Integer> {
 	 * 
 	 * @param rule The rule to modify {@link Enchantment#PROTECTION_ENVIRONMENTAL} level restrictions on diamond stuff.
 	 */
-	protected MaxProtectionOnDiamondsRuleNode(MaxProtectionOnDiamondsGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r != null);
-		add(getterNode = new GetCurrentValueGameRuleNode<Integer>(rule));
-		add(resetNode = new ResetGameRuleNode<Integer>(rule));
-		add(enableNode = new EnableRuleNode<Integer>(rule));
+	protected MaxProtectionOnDiamondsRuleNode(Supplier<MaxProtectionOnDiamondsGameRule> rule) {
+		super(rule, "maxProtectionOnDiamonds", ERuleCode.GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__EXPLANATION, r -> r != null);
 		add(setterNode = new SetMaxProtectionOnDiamondsRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the current value of the {@link MaxProtectionOnDiamondsGameRule}.
-	 */
-	public GetCurrentValueGameRuleNode<Integer> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that resets the game rule value.
-	 */
-	public ResetGameRuleNode<Integer> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<Integer> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -57,15 +32,20 @@ public class MaxProtectionOnDiamondsRuleNode extends RuleNode<Integer> {
 		return setterNode;
 	}
 
-	public class SetMaxProtectionOnDiamondsRuleNode extends RuleNode<Integer> {
+	public class SetMaxProtectionOnDiamondsRuleNode extends RuleNodeBase<MaxProtectionOnDiamondsGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The rule that defines the maximal {@link Enchantment#PROTECTION_ENVIRONMENTAL} level.
 		 */
-		protected SetMaxProtectionOnDiamondsRuleNode(MaxProtectionOnDiamondsGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r != null && r.isEnable());
+		protected SetMaxProtectionOnDiamondsRuleNode(Supplier<MaxProtectionOnDiamondsGameRule> rule) {
+			super(rule, "set", null, r -> r != null);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override

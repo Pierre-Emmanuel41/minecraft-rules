@@ -16,6 +16,7 @@ import fr.pederobien.utils.event.EventManager;
 import fr.pederobien.utils.event.IEventListener;
 
 public class PvpGameRule extends Rule<Boolean> implements IEventListener {
+	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
 	private boolean registered;
 	private PvpTimeLineObserver timelineObserver;
 
@@ -27,7 +28,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 	 * @param game The game associated to this rule.
 	 */
 	public PvpGameRule(IGame game) {
-		super(game, "pvp", false, ERuleCode.GAME_RULE__PVP__EXPLANATION);
+		super(game, "pvp", false, ERuleCode.GAME_RULE__PVP__EXPLANATION, PARSER);
 		timelineObserver = new PvpTimeLineObserver();
 		EventManager.registerListener(this);
 	}
@@ -36,7 +37,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 	public void setValue(Boolean value) {
 		super.setValue(value);
 
-		if (!isEnable() || !(getGame() instanceof IPvpTimeConfigurable) || getGame().getState() == PausableState.NOT_STARTED)
+		if (!(getGame() instanceof IPvpTimeConfigurable) || getGame().getState() == PausableState.NOT_STARTED)
 			return;
 
 		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) getGame();
@@ -52,7 +53,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 
 	@EventHandler
 	private void onGameStart(GameStartPostEvent event) {
-		if (!isEnable() || !event.getGame().equals(getGame()) || !getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
+		if (!event.getGame().equals(getGame()) || !getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
 		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
@@ -62,7 +63,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 
 	@EventHandler
 	private void onGameStop(GameStopPostEvent event) {
-		if (!isEnable() || !event.getGame().equals(getGame()) || !(event.getGame() instanceof IPvpTimeConfigurable))
+		if (!event.getGame().equals(getGame()) || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
 		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
@@ -71,7 +72,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 
 	@EventHandler
 	private void onPvpTimeChange(ConfigurableValueChangeEvent event) {
-		if (!isEnable() || getGame().getState() == PausableState.NOT_STARTED)
+		if (getGame().getState() == PausableState.NOT_STARTED)
 			return;
 
 		if (!(getGame() instanceof IPvpTimeConfigurable) || ((IPvpTimeConfigurable) getGame()).getPvpTime().equals(event.getConfigurable()))

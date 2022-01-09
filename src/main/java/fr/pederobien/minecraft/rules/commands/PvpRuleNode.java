@@ -1,18 +1,17 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.impl.EGameCode;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.PvpGameRule;
 
-public class PvpRuleNode extends RuleNode<Boolean> {
-	private GetCurrentValueGameRuleNode<Boolean> getterNode;
-	private ResetGameRuleNode<Boolean> resetNode;
-	private EnableRuleNode<Boolean> enableNode;
+public class PvpRuleNode extends RuleNode<PvpGameRule> {
 	private SetPvpRuleNode setterNode;
 
 	/**
@@ -20,33 +19,9 @@ public class PvpRuleNode extends RuleNode<Boolean> {
 	 * 
 	 * @param rule The rule to enable or disable the PVP while the game is in progress.
 	 */
-	protected PvpRuleNode(PvpGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r != null);
-		add(getterNode = new GetCurrentValueGameRuleNode<Boolean>(rule));
-		add(resetNode = new ResetGameRuleNode<Boolean>(rule));
-		add(enableNode = new EnableRuleNode<>(rule));
+	protected PvpRuleNode(Supplier<PvpGameRule> rule) {
+		super(rule, "pvp", ERuleCode.GAME_RULE__PVP__EXPLANATION, r -> r != null);
 		add(setterNode = new SetPvpRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the current value of the PVP rule.
-	 */
-	public GetCurrentValueGameRuleNode<Boolean> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that resets the game rule value.
-	 */
-	public ResetGameRuleNode<Boolean> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<Boolean> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -56,15 +31,20 @@ public class PvpRuleNode extends RuleNode<Boolean> {
 		return setterNode;
 	}
 
-	public class SetPvpRuleNode extends RuleNode<Boolean> {
+	public class SetPvpRuleNode extends RuleNodeBase<PvpGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The PVP rule associated to this node.
 		 */
-		protected SetPvpRuleNode(PvpGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r != null && r.isEnable());
+		protected SetPvpRuleNode(Supplier<PvpGameRule> rule) {
+			super(rule, "set", null, r -> r != null);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override
@@ -95,7 +75,7 @@ public class PvpRuleNode extends RuleNode<Boolean> {
 			}
 
 			getRule().setValue(value);
-			sendSuccessful(sender, ERuleCode.GAME_RULE__PVP_SET__VALUE_UPDATED, getRule().getName());
+			sendSuccessful(sender, ERuleCode.GAME_RULE__PVP_SET__VALUE_UPDATED, getRule().getName(), getRule().getValue());
 			return true;
 		}
 	}

@@ -1,22 +1,21 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.entity.EntitySpawnEvent;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.managers.WorldManager;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.EntityTypeList;
 import fr.pederobien.minecraft.rules.impl.MobsNotAllowedToSpawnGameRule;
 import fr.pederobien.minecraft.rules.interfaces.IEntityTypeList;
 
-public class MobsNotAllowedToSpawnRuleNode extends RuleNode<IEntityTypeList> {
-	private GetCurrentValueGameRuleNode<IEntityTypeList> getterNode;
-	private ResetGameRuleNode<IEntityTypeList> resetNode;
-	private EnableRuleNode<IEntityTypeList> enableNode;
+public class MobsNotAllowedToSpawnRuleNode extends RuleNode<MobsNotAllowedToSpawnGameRule> {
 	private SetMobsNotAllowedToSpawnRuleNode setterNode;
 
 	/**
@@ -24,33 +23,9 @@ public class MobsNotAllowedToSpawnRuleNode extends RuleNode<IEntityTypeList> {
 	 * 
 	 * @param rule The rule to specify which mobs cannot spawn while the game is in progress.
 	 */
-	protected MobsNotAllowedToSpawnRuleNode(MobsNotAllowedToSpawnGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r != null);
-		add(getterNode = new GetCurrentValueGameRuleNode<IEntityTypeList>(rule));
-		add(resetNode = new ResetGameRuleNode<IEntityTypeList>(rule));
-		add(enableNode = new EnableRuleNode<IEntityTypeList>(rule));
+	protected MobsNotAllowedToSpawnRuleNode(Supplier<MobsNotAllowedToSpawnGameRule> rule) {
+		super(rule, "mobsNotAllowedToSpawn", ERuleCode.GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN__EXPLANATION, r -> r != null);
 		add(setterNode = new SetMobsNotAllowedToSpawnRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the current value of the {@link MobsNotAllowedToSpawnGameRule}.
-	 */
-	public GetCurrentValueGameRuleNode<IEntityTypeList> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that resets the value of the {@link MobsNotAllowedToSpawnGameRule}.
-	 */
-	public ResetGameRuleNode<IEntityTypeList> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<IEntityTypeList> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -61,15 +36,20 @@ public class MobsNotAllowedToSpawnRuleNode extends RuleNode<IEntityTypeList> {
 	}
 
 	@SuppressWarnings("deprecation")
-	public class SetMobsNotAllowedToSpawnRuleNode extends RuleNode<IEntityTypeList> {
+	public class SetMobsNotAllowedToSpawnRuleNode extends RuleNodeBase<MobsNotAllowedToSpawnGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The rule that cancel {@link EntitySpawnEvent} for specific entity while the game is in progress.
 		 */
-		protected SetMobsNotAllowedToSpawnRuleNode(MobsNotAllowedToSpawnGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r != null && r.isEnable());
+		protected SetMobsNotAllowedToSpawnRuleNode(Supplier<MobsNotAllowedToSpawnGameRule> rule) {
+			super(rule, "set", null, r -> r != null);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override
@@ -99,9 +79,9 @@ public class MobsNotAllowedToSpawnRuleNode extends RuleNode<IEntityTypeList> {
 			getRule().setValue(mobs);
 
 			if (mobs.toList().size() == 1)
-				sendSuccessful(sender, ERuleCode.GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ONE_MOB_NOT_ALLOWED, mobNames);
+				sendSuccessful(sender, ERuleCode.GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ONE_MOB_NOT_ALLOWED, getRule().getValue(), mobNames);
 			else
-				sendSuccessful(sender, ERuleCode.GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__SEVERAL_MOBS_NOT_ALLOWED, mobNames);
+				sendSuccessful(sender, ERuleCode.GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__SEVERAL_MOBS_NOT_ALLOWED, getRule().getValue(), mobNames);
 			return true;
 		}
 	}

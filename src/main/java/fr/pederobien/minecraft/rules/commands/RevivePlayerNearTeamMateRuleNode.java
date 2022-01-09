@@ -1,19 +1,18 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.impl.EGameCode;
 import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.RevivePlayerNearTeamMatesGameRule;
 
-public class RevivePlayerNearTeamMateRuleNode extends RuleNode<Boolean> {
-	private GetCurrentValueGameRuleNode<Boolean> getterNode;
-	private ResetGameRuleNode<Boolean> resetNode;
-	private EnableRuleNode<Boolean> enableNode;
+public class RevivePlayerNearTeamMateRuleNode extends RuleNode<RevivePlayerNearTeamMatesGameRule> {
 	private SetRevivePlayerNearTeamMateRuleNode setterNode;
 
 	/**
@@ -21,33 +20,10 @@ public class RevivePlayerNearTeamMateRuleNode extends RuleNode<Boolean> {
 	 * 
 	 * @param rule The game rule that specifies where players revive while the game is in progress.
 	 */
-	protected RevivePlayerNearTeamMateRuleNode(RevivePlayerNearTeamMatesGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r instanceof ITeamConfigurable);
-		add(getterNode = new GetCurrentValueGameRuleNode<Boolean>(rule));
-		add(resetNode = new ResetGameRuleNode<Boolean>(rule));
-		add(enableNode = new EnableRuleNode<Boolean>(rule));
+	protected RevivePlayerNearTeamMateRuleNode(Supplier<RevivePlayerNearTeamMatesGameRule> rule) {
+		super(rule, "revivePlayerNearTeamMate", ERuleCode.GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION,
+				r -> r != null && r.getGame() instanceof ITeamConfigurable);
 		add(setterNode = new SetRevivePlayerNearTeamMateRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the game rule current value.
-	 */
-	public GetCurrentValueGameRuleNode<Boolean> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that reset the game rule value.
-	 */
-	public ResetGameRuleNode<Boolean> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<Boolean> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -57,15 +33,20 @@ public class RevivePlayerNearTeamMateRuleNode extends RuleNode<Boolean> {
 		return setterNode;
 	}
 
-	public class SetRevivePlayerNearTeamMateRuleNode extends RuleNode<Boolean> {
+	public class SetRevivePlayerNearTeamMateRuleNode extends RuleNodeBase<RevivePlayerNearTeamMatesGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The rule that manage where players revive.
 		 */
-		protected SetRevivePlayerNearTeamMateRuleNode(RevivePlayerNearTeamMatesGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r.getGame() instanceof ITeamConfigurable && r.isEnable());
+		protected SetRevivePlayerNearTeamMateRuleNode(Supplier<RevivePlayerNearTeamMatesGameRule> rule) {
+			super(rule, "set", null, r -> r != null && r.getGame() instanceof ITeamConfigurable);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override
@@ -96,7 +77,7 @@ public class RevivePlayerNearTeamMateRuleNode extends RuleNode<Boolean> {
 			}
 
 			getRule().setValue(value);
-			sendSuccessful(sender, ERuleCode.GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_UPDATED, getRule().getName());
+			sendSuccessful(sender, ERuleCode.GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES_SET__VALUE_UPDATED, getRule().getName(), getRule().getValue());
 			return true;
 		}
 	}

@@ -27,6 +27,7 @@ import fr.pederobien.utils.event.EventManager;
 import fr.pederobien.utils.event.IEventListener;
 
 public class DisplayTeamMatesLocationGameRule extends PeriodicGameRule<Boolean> implements IEventListener {
+	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
 
 	/**
 	 * Creates a rule to enable or disable the display of player's team mates location while the game is in progress.
@@ -34,7 +35,7 @@ public class DisplayTeamMatesLocationGameRule extends PeriodicGameRule<Boolean> 
 	 * @param game The game associated to this rule.
 	 */
 	public DisplayTeamMatesLocationGameRule(IGame game) {
-		super(game, "displayTeamMatesLocation", true, ERuleCode.GAME_RULE__DISPLAY_TEAM_MATES_LOCATION__EXPLANATION);
+		super(game, "displayTeamMatesLocation", true, ERuleCode.GAME_RULE__DISPLAY_TEAM_MATES_LOCATION__EXPLANATION, PARSER);
 		setPeriod(10);
 
 		EventManager.registerListener(this);

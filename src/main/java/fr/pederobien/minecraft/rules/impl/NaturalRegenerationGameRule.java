@@ -12,6 +12,7 @@ import fr.pederobien.utils.event.EventManager;
 import fr.pederobien.utils.event.IEventListener;
 
 public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEventListener {
+	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
 
 	/**
 	 * Creates a rule in order to enable or disable the natural regeneration while the game is in progress.
@@ -19,7 +20,7 @@ public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEvent
 	 * @param game The game associated to this rule.
 	 */
 	public NaturalRegenerationGameRule(IGame game) {
-		super(game, "naturalRegeneration", true, ERuleCode.GAME_RULE__NATURAL_REGENERATION__EXPLANATION);
+		super(game, "naturalRegeneration", true, ERuleCode.GAME_RULE__NATURAL_REGENERATION__EXPLANATION, PARSER);
 		EventManager.registerListener(this);
 	}
 
@@ -27,13 +28,13 @@ public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEvent
 	public void setValue(Boolean value) {
 		super.setValue(value);
 
-		if (getGame().getState() != PausableState.NOT_STARTED && isEnable())
+		if (getGame().getState() != PausableState.NOT_STARTED)
 			setGameRule(GameRule.NATURAL_REGENERATION, getValue());
 	}
 
 	@EventHandler
 	private void onGameStart(GameStartPostEvent event) {
-		if (!isEnable() || !event.getGame().equals(getGame()))
+		if (!event.getGame().equals(getGame()))
 			return;
 
 		setGameRule(GameRule.NATURAL_REGENERATION, getValue());
@@ -41,7 +42,7 @@ public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEvent
 
 	@EventHandler
 	private void onGameStop(GameStopPostEvent event) {
-		if (!isEnable() || !event.getGame().equals(getGame()))
+		if (!event.getGame().equals(getGame()))
 			return;
 
 		setGameRule(GameRule.NATURAL_REGENERATION, getDefaultValue());

@@ -1,19 +1,18 @@
 package fr.pederobien.minecraft.rules.commands;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.GameRule;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
+import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.impl.EGameCode;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.impl.NaturalRegenerationGameRule;
 
-public class NaturalRegenerationRuleNode extends RuleNode<Boolean> {
-	private GetCurrentValueGameRuleNode<Boolean> getterNode;
-	private ResetGameRuleNode<Boolean> resetNode;
-	private EnableRuleNode<Boolean> enableNode;
+public class NaturalRegenerationRuleNode extends RuleNode<NaturalRegenerationGameRule> {
 	private SetNaturalRegenerationRuleNode setterNode;
 
 	/**
@@ -21,33 +20,9 @@ public class NaturalRegenerationRuleNode extends RuleNode<Boolean> {
 	 * 
 	 * @param rule The rule to enable or disable the {@link GameRule#NATURAL_REGENERATION} while the game is in progress.
 	 */
-	protected NaturalRegenerationRuleNode(NaturalRegenerationGameRule rule) {
-		super(rule, rule.getName(), rule.getExplanation(), r -> r != null);
-		add(getterNode = new GetCurrentValueGameRuleNode<Boolean>(rule));
-		add(resetNode = new ResetGameRuleNode<Boolean>(rule));
-		add(enableNode = new EnableRuleNode<Boolean>(rule));
+	protected NaturalRegenerationRuleNode(Supplier<NaturalRegenerationGameRule> rule) {
+		super(rule, "naturalRegeneration", ERuleCode.GAME_RULE__NATURAL_REGENERATION__EXPLANATION, r -> r != null);
 		add(setterNode = new SetNaturalRegenerationRuleNode(rule));
-	}
-
-	/**
-	 * @return The node that displays the current value of the natural regeneration rule.
-	 */
-	public GetCurrentValueGameRuleNode<Boolean> getGetterNode() {
-		return getterNode;
-	}
-
-	/**
-	 * @return The node that resets the game rule value.
-	 */
-	public ResetGameRuleNode<Boolean> getResetNode() {
-		return resetNode;
-	}
-
-	/**
-	 * @return The node to enable or disable the game rule.
-	 */
-	public EnableRuleNode<Boolean> getEnableNode() {
-		return enableNode;
 	}
 
 	/**
@@ -57,15 +32,20 @@ public class NaturalRegenerationRuleNode extends RuleNode<Boolean> {
 		return setterNode;
 	}
 
-	public class SetNaturalRegenerationRuleNode extends RuleNode<Boolean> {
+	public class SetNaturalRegenerationRuleNode extends RuleNodeBase<NaturalRegenerationGameRule> {
 
 		/**
 		 * Create a rule node defined by a label, which correspond to its name, and an explanation.
 		 * 
 		 * @param rule The natural regeneration rule associated to this node.
 		 */
-		protected SetNaturalRegenerationRuleNode(NaturalRegenerationGameRule rule) {
-			super(rule, "set", rule.getExplanation(), r -> r != null && r.isEnable());
+		protected SetNaturalRegenerationRuleNode(Supplier<NaturalRegenerationGameRule> rule) {
+			super(rule, "set", null, r -> r != null);
+		}
+
+		@Override
+		public IMinecraftCode getExplanation() {
+			return getRule().getExplanation();
 		}
 
 		@Override
@@ -96,7 +76,7 @@ public class NaturalRegenerationRuleNode extends RuleNode<Boolean> {
 			}
 
 			getRule().setValue(value);
-			sendSuccessful(sender, ERuleCode.GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_UPDATED, getRule().getName());
+			sendSuccessful(sender, ERuleCode.GAME_RULE__NATURAL_REGENERATION_SET__VALUE_IS_UPDATED, getRule().getName(), getRule().getValue());
 			return true;
 		}
 	}
