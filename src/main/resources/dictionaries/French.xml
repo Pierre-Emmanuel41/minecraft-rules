@@ -81,6 +81,10 @@
 			<value>Pour modifier le niveau maximum de l'enchantement protection pour les pièces d'armures en diamands</value>
 		</message>
 		<message>
+			<code>GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__LEVEL_UPDATED</code>
+			<value>Le niveau maximum de l'enchantement PROTECTION sur le diamant est %s</value>
+		</message>
+		<message>
 			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION</code>
 			<value>Pour définir si un joueur qui respawn doit être téléporté près d'un joueur de son équipe</value>
 		</message>

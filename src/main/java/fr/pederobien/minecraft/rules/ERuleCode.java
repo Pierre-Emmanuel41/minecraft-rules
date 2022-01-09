@@ -61,6 +61,9 @@ public enum ERuleCode implements IMinecraftCode {
 	// Code for the "rules maxProtectionOnDiamonds" command ---------------------
 	GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__EXPLANATION,
 
+	// Code when the level is updated
+	GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__LEVEL_UPDATED,
+
 	// Code for the "rules revivePlayerNearTeammate" ----------------------------
 	GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION,
 

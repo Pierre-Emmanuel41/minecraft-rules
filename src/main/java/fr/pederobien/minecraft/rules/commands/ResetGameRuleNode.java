@@ -22,7 +22,7 @@ public class ResetGameRuleNode<T extends IRule<?>> extends RuleNodeBase<T> {
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 		getRule().reset();
-		sendSuccessful(sender, ERuleCode.GAME_RULE__RESET__VALUE_RESET, getRule().getValue());
+		sendSuccessful(sender, ERuleCode.GAME_RULE__RESET__VALUE_RESET, getRule().getName(), getRule().getValue());
 		return true;
 	}
 }

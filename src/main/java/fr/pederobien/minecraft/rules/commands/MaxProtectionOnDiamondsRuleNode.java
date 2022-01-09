@@ -72,7 +72,7 @@ public class MaxProtectionOnDiamondsRuleNode extends RuleNode<MaxProtectionOnDia
 			}
 
 			getRule().setValue(level);
-			sendSuccessful(sender, ERuleCode.GAME_RULE__ENCHANT__LEVEL_UPDATED, getRule().getName(), getRule().getValue());
+			sendSuccessful(sender, ERuleCode.GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__LEVEL_UPDATED, getRule().getValue());
 			return true;
 		}
 	}

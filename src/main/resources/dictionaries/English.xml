@@ -84,6 +84,10 @@
 			<value>To set the max level of the protection enchantment on diamonds armor pieces</value>
 		</message>
 		<message>
+			<code>GAME_RULE__MAX_PROTECTION_ON_DIAMONDS__LEVEL_UPDATED</code>
+			<value>The maximum level of the PROTECTION enchantment on diamonds is %s</value>
+		</message>
+		<message>
 			<code>GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION</code>
 			<value>To set whether or not a respawning player should be teleported to a team mate</value>
 		</message>
@@ -129,7 +133,7 @@
 		</message>
 		<message>
 			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__MOB_NOT_FOUND</code>
-			<value>The mobs %s does not exist</value>
+			<value>The mob %s does not exist</value>
 		</message>
 		<message>
 			<code>GAME_RULE__MOBS_NOT_ALLOWED_TO_SPAWN_SET__ONE_MOB_NOT_ALLOWED</code>
