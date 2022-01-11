@@ -112,7 +112,7 @@
 			<value>The %s rule value is now set to: %s (in game)</value>
 		</message>
 		<message>
-			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<code>GAME_RULE__NATURAL_REGENERATION__EXPLANATION</code>
 			<value>To set if players can regenerate health naturally through their hunger bar</value>
 		</message>
 		<message>
@@ -144,7 +144,7 @@
 			<value>List of not allowed mobs to spawn (in game) :%n%s</value>
 		</message>
 		<message>
-			<code>GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION__EXPLANATION</code>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION__EXPLANATION</code>
 			<value>To enable or disable the display of player's team mates location</value>
 		</message>
 		<message>

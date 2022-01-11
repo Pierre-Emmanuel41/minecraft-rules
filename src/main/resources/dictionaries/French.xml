@@ -109,7 +109,7 @@
 			<value>La valeur de la règle %s est : %s (pendant une partie)</value>
 		</message>
 		<message>
-			<code>NATURAL_REGENERATION__EXPLANATION</code>
+			<code>GAME_RULE__NATURAL_REGENERATION__EXPLANATION</code>
 			<value>Pour définir si les joueurs peuvent régénérer leur santé naturellement grâce à leur barre de faim.</value>
 		</message>
 		<message>
@@ -141,7 +141,7 @@
 			<value>Liste des mobs qui ne sont pas autorisés à spawner pendant une partie :%n%s</value>
 		</message>
 		<message>
-			<code>GAME_RULE__DISPLAY_CURRENT_TEAM_MATES_LOCATION__EXPLANATION</code>
+			<code>GAME_RULE__DISPLAY_TEAM_MATES_LOCATION__EXPLANATION</code>
 			<value>Pour activer ou désactiver l'affichage de la position des coéquipiers des joueurs</value>
 		</message>
 		<message>

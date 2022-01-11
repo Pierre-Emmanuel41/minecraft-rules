@@ -3,6 +3,7 @@ package fr.pederobien.minecraft.rules.impl;
 import org.bukkit.GameRule;
 
 import fr.pederobien.minecraft.game.event.GameStartPostEvent;
+import fr.pederobien.minecraft.game.event.GameStopPostEvent;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.utils.IPausable.PausableState;
@@ -40,7 +41,7 @@ public class AnnounceAdvancementsGameRule extends Rule<Boolean> implements IEven
 	}
 
 	@EventHandler
-	private void onGameStop(GameStartPostEvent event) {
+	private void onGameStop(GameStopPostEvent event) {
 		if (!event.getGame().equals(getGame()))
 			return;
 
