@@ -26,7 +26,7 @@
 		</message>
 		<message>
 			<code>RULES__EXPLANATION</code>
-			<value>Pour activer/désactiver et modifier les règles</value>
+			<value>Pour modifier les charactéristiques des règles</value>
 		</message>
 		<message>
 			<code>GAME_RULE__RESET__EXPLANATION</code>

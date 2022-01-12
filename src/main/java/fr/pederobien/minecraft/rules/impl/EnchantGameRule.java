@@ -20,7 +20,7 @@ import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.utils.IPausable.PausableState;
 
-public class EnchantGameRule extends EventGameRule<Integer> {
+public class EnchantGameRule extends EventRule<Integer> {
 	private static final Parser<Integer> PARSER = new Parser<Integer>(value -> value.toString(), value -> Integer.parseInt(value));
 	private Enchantment enchantment;
 	private List<Material> items;

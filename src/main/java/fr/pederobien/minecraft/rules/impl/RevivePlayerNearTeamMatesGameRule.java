@@ -14,7 +14,7 @@ import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.utils.IPausable.PausableState;
 
-public class RevivePlayerNearTeamMatesGameRule extends EventGameRule<Boolean> {
+public class RevivePlayerNearTeamMatesGameRule extends EventRule<Boolean> {
 	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
 
 	/**

@@ -29,7 +29,7 @@
 		</message>
 		<message>
 			<code>RULES__EXPLANATION</code>
-			<value>To enable/disable and modify rules</value>
+			<value>To modify rules characteristics</value>
 		</message>
 		<message>
 			<code>GAME_RULE__RESET__EXPLANATION</code>

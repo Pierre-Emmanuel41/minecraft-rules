@@ -9,7 +9,7 @@ import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.interfaces.IEntityTypeList;
 import fr.pederobien.utils.IPausable.PausableState;
 
-public class MobsNotAllowedToSpawnGameRule extends EventGameRule<IEntityTypeList> {
+public class MobsNotAllowedToSpawnGameRule extends EventRule<IEntityTypeList> {
 	private static final EntityTypeListParser PARSER = new EntityTypeListParser();
 
 	/**

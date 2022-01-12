@@ -1,17 +1,17 @@
 package fr.pederobien.minecraft.rules.impl;
 
-import org.bukkit.GameRule;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.entity.EntityRegainHealthEvent;
+import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
-import fr.pederobien.minecraft.game.event.GameStartPostEvent;
-import fr.pederobien.minecraft.game.event.GameStopPostEvent;
 import fr.pederobien.minecraft.game.interfaces.IGame;
+import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
+import fr.pederobien.minecraft.game.interfaces.ITeamList;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.utils.IPausable.PausableState;
-import fr.pederobien.utils.event.EventHandler;
-import fr.pederobien.utils.event.EventManager;
-import fr.pederobien.utils.event.IEventListener;
 
-public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEventListener {
+public class NaturalRegenerationGameRule extends EventRule<Boolean> {
 	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
 
 	/**
@@ -21,30 +21,20 @@ public class NaturalRegenerationGameRule extends Rule<Boolean> implements IEvent
 	 */
 	public NaturalRegenerationGameRule(IGame game) {
 		super(game, "naturalRegeneration", true, ERuleCode.GAME_RULE__NATURAL_REGENERATION__EXPLANATION, PARSER);
-		EventManager.registerListener(this);
-	}
-
-	@Override
-	public void setValue(Boolean value) {
-		super.setValue(value);
-
-		if (getGame().getState() != PausableState.NOT_STARTED)
-			setGameRule(GameRule.NATURAL_REGENERATION, getValue());
 	}
 
 	@EventHandler
-	private void onGameStart(GameStartPostEvent event) {
-		if (!event.getGame().equals(getGame()))
+	private void onPlayerRegainHealth(EntityRegainHealthEvent event) {
+		if (!(event.getEntity() instanceof Player) || getGame().getState() == PausableState.NOT_STARTED || !(getGame() instanceof ITeamConfigurable))
 			return;
 
-		setGameRule(GameRule.NATURAL_REGENERATION, getValue());
-	}
-
-	@EventHandler
-	private void onGameStop(GameStopPostEvent event) {
-		if (!event.getGame().equals(getGame()))
+		ITeamList teams = ((ITeamConfigurable) getGame()).getTeams();
+		if (!teams.getTeam((Player) event.getEntity()).isPresent())
 			return;
 
-		setGameRule(GameRule.NATURAL_REGENERATION, getDefaultValue());
+		if (!getValue() || event.getRegainReason() != RegainReason.SATIATED)
+			return;
+
+		event.setCancelled(true);
 	}
 }
