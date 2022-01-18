@@ -10,6 +10,7 @@ import fr.pederobien.minecraft.platform.Platform;
 import fr.pederobien.minecraft.platform.event.ConfigurableValueChangeEvent;
 import fr.pederobien.minecraft.platform.interfaces.IPvpTimeConfigurable;
 import fr.pederobien.minecraft.rules.ERuleCode;
+import fr.pederobien.minecraft.rules.event.RuleChangePostEvent;
 import fr.pederobien.utils.IPausable.PausableState;
 import fr.pederobien.utils.event.EventHandler;
 import fr.pederobien.utils.event.EventManager;
@@ -17,8 +18,7 @@ import fr.pederobien.utils.event.IEventListener;
 
 public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
-	private boolean registered;
-	private PvpTimeLineObserver timelineObserver;
+	private PvpTimeLineObserver pvpTimeObserver;
 
 	/**
 	 * Creates a game rule to enable or disable PVP while the game is in progress. This rule works if and only if the given game
@@ -29,26 +29,7 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 	 */
 	public PvpGameRule(IGame game) {
 		super(game, "pvp", false, ERuleCode.GAME_RULE__PVP__EXPLANATION, PARSER);
-		timelineObserver = new PvpTimeLineObserver();
 		EventManager.registerListener(this);
-	}
-
-	@Override
-	public void setValue(Boolean value) {
-		super.setValue(value);
-
-		if (!(getGame() instanceof IPvpTimeConfigurable) || getGame().getState() == PausableState.NOT_STARTED)
-			return;
-
-		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) getGame();
-
-		// Case 1: Rule registered for the PVP time and finally disabling the PVP
-		if (registered && !value)
-			Platform.get(getGame().getPlugin()).getTimeLine().unregister(pvp.getPvpTime().get(), timelineObserver);
-
-		// Case 2: Rule not registered for the PVP time and finally enabling the PVP
-		else if (!registered && value)
-			Platform.get(getGame().getPlugin()).getTimeLine().register(pvp.getPvpTime().get(), timelineObserver);
 	}
 
 	@EventHandler
@@ -56,31 +37,87 @@ public class PvpGameRule extends Rule<Boolean> implements IEventListener {
 		if (!event.getGame().equals(getGame()) || !getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
-		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
-		Platform.get(getGame().getPlugin()).getTimeLine().register(pvp.getPvpTime().get(), timelineObserver);
-		registered = true;
+		ITimeLine timeLine = Platform.get(getGame().getPlugin()).getTimeLine();
+		LocalTime pvpTime = ((IPvpTimeConfigurable) getGame()).getPvpTime().get();
+		LocalTime realPvpTime = pvpTime.equals(LocalTime.MIN) ? LocalTime.of(0, 0, 1) : pvpTime;
+		timeLine.register(realPvpTime, pvpTimeObserver = new PvpTimeLineObserver(pvpTime.toSecondOfDay() < 5 ? pvpTime.toSecondOfDay() : 5, getGame()));
 	}
 
 	@EventHandler
 	private void onGameStop(GameStopPostEvent event) {
-		if (!event.getGame().equals(getGame()) || !(event.getGame() instanceof IPvpTimeConfigurable))
+		if (!event.getGame().equals(getGame()) || !getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
-		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) event.getGame();
-		Platform.get(event.getGame().getPlugin()).getTimeLine().unregister(pvp.getPvpTime().get(), timelineObserver);
+		LocalTime pvpTime = ((IPvpTimeConfigurable) event.getGame()).getPvpTime().get();
+		Platform.get(event.getGame().getPlugin()).getTimeLine().unregister(pvpTime, pvpTimeObserver);
 	}
 
 	@EventHandler
 	private void onPvpTimeChange(ConfigurableValueChangeEvent event) {
-		if (getGame().getState() == PausableState.NOT_STARTED)
+		if (getGame().getState() == PausableState.NOT_STARTED || !getValue())
 			return;
 
-		if (!(getGame() instanceof IPvpTimeConfigurable) || ((IPvpTimeConfigurable) getGame()).getPvpTime().equals(event.getConfigurable()))
+		if (!(getGame() instanceof IPvpTimeConfigurable) || !((IPvpTimeConfigurable) getGame()).getPvpTime().equals(event.getConfigurable()))
 			return;
 
-		IPvpTimeConfigurable pvp = (IPvpTimeConfigurable) getGame();
 		ITimeLine timeLine = Platform.get(getGame().getPlugin()).getTimeLine();
-		timeLine.unregister((LocalTime) event.getOldValue(), timelineObserver);
-		timeLine.register(pvp.getPvpTime().get(), timelineObserver);
+		LocalTime oldPvpTime = (LocalTime) event.getOldValue();
+		LocalTime newPvpTime = (LocalTime) event.getConfigurable().get();
+
+		// Unregistering the observer for the old PVP time value
+		timeLine.unregister(oldPvpTime, pvpTimeObserver);
+		if (oldPvpTime.compareTo(newPvpTime) <= 0)
+			pvpTimeObserver.setPvp(false);
+
+		int pvpTimeSecond = newPvpTime.toSecondOfDay();
+		int gameTimeSecond = timeLine.getTimeTask().getGameTime().toSecondOfDay();
+
+		int difference = pvpTimeSecond - gameTimeSecond;
+
+		// Enabling the rule after the PVP time
+		if (difference < 0) {
+			pvpTimeObserver = new PvpTimeLineObserver(0, getGame());
+			pvpTimeObserver.setPvp(true);
+		} else
+			// Enabling the rule during/before the count down
+			timeLine.register(newPvpTime, pvpTimeObserver = new PvpTimeLineObserver(difference < 5 ? difference : 5, getGame()));
+	}
+
+	@EventHandler
+	private void onValueChange(RuleChangePostEvent<Boolean> event) {
+		if (!event.getRule().equals(this))
+			return;
+
+		// Game not started yet or stopped
+		// Game does not have a PVP time value
+		if (getGame().getState() == PausableState.NOT_STARTED || !(getGame() instanceof IPvpTimeConfigurable))
+			return;
+
+		ITimeLine timeLine = Platform.get(getGame().getPlugin()).getTimeLine();
+		LocalTime pvpTime = ((IPvpTimeConfigurable) getGame()).getPvpTime().get();
+
+		// Rule enabled then disabled
+		if (event.getOldValue() && !event.getRule().getValue()) {
+			if (pvpTimeObserver == null)
+				return;
+
+			timeLine.unregister(pvpTime, pvpTimeObserver);
+			pvpTimeObserver.setPvp(false);
+		}
+		// Rule disabled then enabled
+		else if (!event.getOldValue() && event.getRule().getValue()) {
+			int pvpTimeSecond = pvpTime.toSecondOfDay();
+			int gameTimeSecond = timeLine.getTimeTask().getGameTime().toSecondOfDay();
+
+			int difference = pvpTimeSecond - gameTimeSecond;
+
+			// Enabling the rule after the PVP time
+			if (difference < 0) {
+				pvpTimeObserver = new PvpTimeLineObserver(0, getGame());
+				pvpTimeObserver.setPvp(true);
+			} else
+				// Enabling the rule during/before the count down
+				timeLine.register(pvpTime, pvpTimeObserver = new PvpTimeLineObserver(difference < 5 ? difference : 5, getGame()));
+		}
 	}
 }

@@ -46,6 +46,12 @@ public enum ERuleCode implements IMinecraftCode {
 	// Code when the PVP will be activated
 	GAME_RULE__PVP__COUNT_DOWN(PlayerGroup.ALL),
 
+	// Code when the PVP is enabled
+	GAME_RULE__PVP__PVP_ENABLED(PlayerGroup.ALL),
+
+	// Code when the PVP is disabled
+	GAME_RULE__PVP__PVP_DISABLED(PlayerGroup.ALL),
+
 	// Code for common command enchant game rule --------------------------------
 	GAME_RULE__ENCHANT__ENCHANT_REMOVED,
 

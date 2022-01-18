@@ -61,6 +61,14 @@
 			<value>Activation du PVP dans %s</value>
 		</message>
 		<message>
+			<code>GAME_RULE__PVP__PVP_ENABLED</code>
+			<value>PVP activé</value>
+		</message>
+		<message>
+			<code>GAME_RULE__PVP__PVP_DISABLED</code>
+			<value>PVP désactivé</value>
+		</message>
+		<message>
 			<code>GAME_RULE__ENCHANT__ENCHANT_REMOVED</code>
 			<value>Suppression de l'enchantement %s (autorisé au maximum : %s)</value>
 		</message>

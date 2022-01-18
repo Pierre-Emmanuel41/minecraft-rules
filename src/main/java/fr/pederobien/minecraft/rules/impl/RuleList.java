@@ -37,7 +37,7 @@ public class RuleList implements IRuleList {
 
 		rules = new LinkedHashMap<String, IRule<?>>();
 		lock = new ReentrantLock(true);
-		pvpGameRule = new PvpGameRule(game);
+		add(pvpGameRule = new PvpGameRule(game));
 		add(maxProtectionOnDiamondsGameRule = new MaxProtectionOnDiamondsGameRule(game));
 		add(revivePlayerNearTeamMatesGameRule = new RevivePlayerNearTeamMatesGameRule(game));
 		add(announceAdvancementsGameRule = new AnnounceAdvancementsGameRule(game));
