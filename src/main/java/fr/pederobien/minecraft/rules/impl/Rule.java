@@ -58,7 +58,7 @@ public class Rule<T> implements IRule<T> {
 		if (getValue().equals(value))
 			return;
 
-		T oldValue = this.value;
+		T oldValue = getValue();
 		this.value = value;
 		EventManager.callEvent(new RuleChangePostEvent<T>(this, oldValue));
 	}
