@@ -65,23 +65,6 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		return null;
 	}
 
-	/**
-	 * The value of PVP in the three minecraft dimension : Overworld, Nether and End.
-	 * 
-	 * @param value True to enable the PVP, false otherwise.
-	 */
-	public void setPvp(boolean value) {
-		if (this.value == value)
-			return;
-
-		this.value = value;
-		WorldManager.OVERWORLD.setPVP(value);
-		WorldManager.NETHER_WORLD.setPVP(value);
-		WorldManager.END_WORLD.setPVP(value);
-
-		send(value ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
-	}
-
 	@EventHandler
 	private void onGameStart(GameStartPostEvent event) {
 		if (!event.getGame().equals(game) || !pvpRule.getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
@@ -170,6 +153,23 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 				timeLine.register(pvpTime, this);
 			}
 		}
+	}
+
+	/**
+	 * The value of PVP in the three minecraft dimension : Overworld, Nether and End.
+	 * 
+	 * @param value True to enable the PVP, false otherwise.
+	 */
+	private void setPvp(boolean value) {
+		if (this.value == value)
+			return;
+
+		this.value = value;
+		WorldManager.OVERWORLD.setPVP(value);
+		WorldManager.NETHER_WORLD.setPVP(value);
+		WorldManager.END_WORLD.setPVP(value);
+
+		send(value ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
 	}
 
 	private void send(IMinecraftCode code, EColor color, DisplayOption displayOption, Object... args) {
