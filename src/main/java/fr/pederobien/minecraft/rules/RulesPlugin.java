@@ -35,9 +35,9 @@ public class RulesPlugin extends JavaPlugin {
 			try {
 				context.register(dictionaryParser.parse(DICTIONARY_FOLDER.concat(dictionary)));
 			} catch (Exception e) {
-				AsyncConsole.print(e);
+				AsyncConsole.println(e);
 				for (StackTraceElement element : e.getStackTrace())
-					AsyncConsole.print(element);
+					AsyncConsole.println(element);
 			}
 	}
 }
