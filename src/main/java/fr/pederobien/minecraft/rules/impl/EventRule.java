@@ -4,8 +4,10 @@ import org.bukkit.event.Listener;
 
 import fr.pederobien.minecraft.commandtree.interfaces.ICodeSender;
 import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
+import fr.pederobien.minecraft.game.GamePlugin;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.rules.RulesPlugin;
+import fr.pederobien.utils.IPausable.PausableState;
 
 public class EventRule<T> extends Rule<T> implements Listener, ICodeSender {
 
@@ -21,5 +23,15 @@ public class EventRule<T> extends Rule<T> implements Listener, ICodeSender {
 	protected EventRule(IGame game, String name, T defaultValue, IMinecraftCode explanation, Parser<T> parser) {
 		super(game, name, defaultValue, explanation, parser);
 		RulesPlugin.instance().getServer().getPluginManager().registerEvents(this, RulesPlugin.instance());
+	}
+
+	/**
+	 * Indicates whether or not the game associated to this game rule is running.
+	 * 
+	 * @return True if the game associated to this rule is running, false otherwise.
+	 */
+	protected boolean isRunning() {
+		IGame current = GamePlugin.getGameTree().getGame();
+		return current != null && getGame().equals(current) && current.getState() != PausableState.NOT_STARTED;
 	}
 }

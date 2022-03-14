@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemStack;
 import fr.pederobien.minecraft.dictionary.interfaces.IMinecraftCode;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.rules.ERuleCode;
-import fr.pederobien.utils.IPausable.PausableState;
 
 public class EnchantGameRule extends EventRule<Integer> {
 	private static final Parser<Integer> PARSER = new Parser<Integer>(value -> value.toString(), value -> Integer.parseInt(value));
@@ -39,9 +38,9 @@ public class EnchantGameRule extends EventRule<Integer> {
 		items = new ArrayList<Material>();
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onEnchantItemEvent(EnchantItemEvent event) {
-		if (getGame().getState() == PausableState.NOT_STARTED || !items.contains(event.getItem().getType()))
+		if (!isRunning() || !items.contains(event.getItem().getType()))
 			return;
 
 		Iterator<Map.Entry<Enchantment, Integer>> iterator = event.getEnchantsToAdd().entrySet().iterator();
@@ -54,9 +53,9 @@ public class EnchantGameRule extends EventRule<Integer> {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onInventoryClickEvent(InventoryClickEvent event) {
-		if (getGame().getState() == PausableState.NOT_STARTED || !(event.getInventory() instanceof AnvilInventory))
+		if (!isRunning() || !(event.getInventory() instanceof AnvilInventory))
 			return;
 
 		AnvilInventory anvilInventory = (AnvilInventory) event.getInventory();

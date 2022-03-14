@@ -7,7 +7,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.rules.ERuleCode;
 import fr.pederobien.minecraft.rules.interfaces.IEntityTypeList;
-import fr.pederobien.utils.IPausable.PausableState;
 
 public class MobsNotAllowedToSpawnGameRule extends EventRule<IEntityTypeList> {
 	private static final EntityTypeListParser PARSER = new EntityTypeListParser();
@@ -23,7 +22,7 @@ public class MobsNotAllowedToSpawnGameRule extends EventRule<IEntityTypeList> {
 
 	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onCreatureSpawn(CreatureSpawnEvent event) {
-		if (getGame().getState() == PausableState.NOT_STARTED || !getValue().toList().contains(event.getEntityType()))
+		if (!isRunning() || !getValue().toList().contains(event.getEntityType()))
 			return;
 
 		event.setCancelled(true);

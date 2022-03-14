@@ -12,7 +12,6 @@ import fr.pederobien.minecraft.game.impl.TeamHelper;
 import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
 import fr.pederobien.minecraft.rules.ERuleCode;
-import fr.pederobien.utils.IPausable.PausableState;
 
 public class RevivePlayerNearTeamMatesGameRule extends EventRule<Boolean> {
 	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
@@ -26,9 +25,9 @@ public class RevivePlayerNearTeamMatesGameRule extends EventRule<Boolean> {
 		super(game, "revivePlayerNearTeamMate", false, ERuleCode.GAME_RULE__REVIVE_PLAYER_NEAR_TEAM_MATES__EXPLANATION, PARSER);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onPlayerRespawn(PlayerRespawnEvent event) {
-		if (getGame().getState() == PausableState.NOT_STARTED || !getValue() || !(getGame() instanceof ITeamConfigurable))
+		if (!isRunning() || !getValue() || !(getGame() instanceof ITeamConfigurable))
 			return;
 
 		ITeamConfigurable teams = (ITeamConfigurable) getGame();

@@ -2,6 +2,7 @@ package fr.pederobien.minecraft.rules.impl;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityRegainHealthEvent;
 import org.bukkit.event.entity.EntityRegainHealthEvent.RegainReason;
 
@@ -9,7 +10,6 @@ import fr.pederobien.minecraft.game.interfaces.IGame;
 import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
 import fr.pederobien.minecraft.game.interfaces.ITeamList;
 import fr.pederobien.minecraft.rules.ERuleCode;
-import fr.pederobien.utils.IPausable.PausableState;
 
 public class NaturalRegenerationGameRule extends EventRule<Boolean> {
 	private static final Parser<Boolean> PARSER = new Parser<Boolean>(value -> value.toString(), value -> Boolean.parseBoolean(value));
@@ -23,16 +23,16 @@ public class NaturalRegenerationGameRule extends EventRule<Boolean> {
 		super(game, "naturalRegeneration", true, ERuleCode.GAME_RULE__NATURAL_REGENERATION__EXPLANATION, PARSER);
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
 	private void onPlayerRegainHealth(EntityRegainHealthEvent event) {
-		if (!(event.getEntity() instanceof Player) || getGame().getState() == PausableState.NOT_STARTED || !(getGame() instanceof ITeamConfigurable))
+		if (!isRunning() || !(event.getEntity() instanceof Player) || !(getGame() instanceof ITeamConfigurable))
 			return;
 
 		ITeamList teams = ((ITeamConfigurable) getGame()).getTeams();
-		if (!teams.getTeam((Player) event.getEntity()).isPresent())
+		if (!teams.getTeam((Player) event.getEntity()).isPresent() || getValue())
 			return;
 
-		if (!getValue() || event.getRegainReason() != RegainReason.SATIATED)
+		if (event.getRegainReason() != RegainReason.SATIATED)
 			return;
 
 		event.setCancelled(true);
