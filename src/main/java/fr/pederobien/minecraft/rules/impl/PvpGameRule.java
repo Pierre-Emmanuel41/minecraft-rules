@@ -16,7 +16,7 @@ public class PvpGameRule extends Rule<Boolean> {
 	 * @param game The game associated to this rule.
 	 */
 	public PvpGameRule(IGame game) {
-		super(game, "pvp", false, ERuleCode.GAME_RULE__PVP__EXPLANATION, PARSER);
+		super(game, "pvp", true, ERuleCode.GAME_RULE__PVP__EXPLANATION, PARSER);
 		EventManager.registerListener(new PvpTimeLineObserver(game, this));
 	}
 }
