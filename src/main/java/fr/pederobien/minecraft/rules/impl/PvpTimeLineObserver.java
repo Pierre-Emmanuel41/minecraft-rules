@@ -52,7 +52,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		countDownAction = count -> send(ERuleCode.GAME_RULE__PVP__COUNT_DOWN, EColor.GOLD, DisplayOption.TITLE, count);
 
 		// Action when the count down is over
-		onTimeAction = time -> setPvp(true);
+		onTimeAction = time -> setPvpAndNotify(true);
 	}
 
 	@Override
@@ -70,6 +70,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		if (!event.getGame().equals(game) || !pvpRule.getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
+		setPvp(false);
 		ITimeLine timeLine = Platform.get(game.getPlugin()).getTimeLine();
 		LocalTime pvpTime = ((IPvpTimeConfigurable) game).getPvpTime().get();
 		LocalTime realPvpTime = pvpTime.equals(LocalTime.MIN) ? LocalTime.of(0, 0, 1) : pvpTime;
@@ -84,7 +85,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		LocalTime pvpTime = ((IPvpTimeConfigurable) event.getGame()).getPvpTime().get();
 		Platform.get(event.getGame().getPlugin()).getTimeLine().unregister(pvpTime, this);
-		value = false;
+		setPvp(false);
 	}
 
 	@EventHandler
@@ -102,7 +103,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		// Unregistering the observer for the old PVP time value
 		timeLine.unregister(oldPvpTime, this);
 		if (oldPvpTime.compareTo(newPvpTime) <= 0)
-			setPvp(false);
+			setPvpAndNotify(true);
 
 		int pvpTimeSecond = newPvpTime.toSecondOfDay();
 		int gameTimeSecond = timeLine.getTimeTask().getGameTime().toSecondOfDay();
@@ -111,7 +112,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		// Enabling the rule after the PVP time
 		if (difference < 0)
-			setPvp(true);
+			setPvpAndNotify(true);
 		else {
 			// Enabling the rule during/before the count down
 			countDown = new CountDown(difference < 5 ? difference : 5, countDownAction, onTimeAction);
@@ -135,7 +136,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		// Rule enabled then disabled
 		if (event.getOldValue() && !event.getRule().getValue()) {
 			timeLine.unregister(pvpTime, this);
-			setPvp(false);
+			setPvpAndNotify(true);
 		}
 		// Rule disabled then enabled
 		else if (!event.getOldValue() && event.getRule().getValue()) {
@@ -146,7 +147,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 			// Enabling the rule after the PVP time
 			if (difference < 0)
-				setPvp(true);
+				setPvpAndNotify(true);
 			else {
 				// Enabling the rule during/before the count down
 				countDown = new CountDown(difference < 5 ? difference : 5, countDownAction, onTimeAction);
@@ -160,16 +161,24 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 	 * 
 	 * @param value True to enable the PVP, false otherwise.
 	 */
-	private void setPvp(boolean value) {
+	private void setPvpAndNotify(boolean value) {
 		if (this.value == value)
 			return;
 
+		setPvp(value);
+		send(value ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
+	}
+
+	/**
+	 * The value of PVP in the three minecraft dimension : Overworld, Nether and End.
+	 * 
+	 * @param value True to enable the PVP, false otherwise.
+	 */
+	private void setPvp(boolean value) {
 		this.value = value;
 		WorldManager.OVERWORLD.setPVP(value);
 		WorldManager.NETHER_WORLD.setPVP(value);
 		WorldManager.END_WORLD.setPVP(value);
-
-		send(value ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
 	}
 
 	private void send(IMinecraftCode code, EColor color, DisplayOption displayOption, Object... args) {
