@@ -25,12 +25,6 @@
 		</dependency>
 		<dependency>
 			<groupId>fr.pederobien.minecraft</groupId>
-			<artifactId>game</artifactId>
-			<version>1.0_MC_1.16.5-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>fr.pederobien.minecraft</groupId>
 			<artifactId>platform</artifactId>
 			<version>1.0_MC_1.16.5-SNAPSHOT</version>
 			<scope>provided</scope>
