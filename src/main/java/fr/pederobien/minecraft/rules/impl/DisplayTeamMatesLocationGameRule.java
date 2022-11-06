@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 import fr.pederobien.minecraft.game.event.GameStartPostEvent;
 import fr.pederobien.minecraft.game.event.GameStopPostEvent;
 import fr.pederobien.minecraft.game.interfaces.IGame;
-import fr.pederobien.minecraft.game.interfaces.IPlayerList;
 import fr.pederobien.minecraft.game.interfaces.ITeam;
 import fr.pederobien.minecraft.game.interfaces.ITeamConfigurable;
 import fr.pederobien.minecraft.managers.MessageManager;
@@ -62,9 +61,8 @@ public class DisplayTeamMatesLocationGameRule extends PeriodicGameRule<Boolean> 
 		}
 
 		ITeamConfigurable teams = (ITeamConfigurable) getGame();
-		for (ITeam team : teams.getTeams().toList()) {
-			IPlayerList players = team.getPlayers();
-			for (Player player : players) {
+		for (ITeam team : teams.getTeams().toList())
+			for (Player player : team.getPlayers()) {
 				List<ColleagueInfo> colleagueInfos = TeamManager.getColleaguesInfo(player, p -> p.getGameMode() == GameMode.SURVIVAL).collect(Collectors.toList());
 
 				if (colleagueInfos.isEmpty())
@@ -80,7 +78,6 @@ public class DisplayTeamMatesLocationGameRule extends PeriodicGameRule<Boolean> 
 
 				MessageManager.sendMessage(DisplayOption.ACTION_BAR, player, TitleMessage.of(joiner.toString()));
 			}
-		}
 	}
 
 	@EventHandler
