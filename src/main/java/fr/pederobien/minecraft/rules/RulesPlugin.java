@@ -21,9 +21,9 @@ public class RulesPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		instance = this;
-
 		registerDictionaries();
+
+		instance = this;
 	}
 
 	private void registerDictionaries() {

@@ -36,7 +36,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 	private Consumer<Integer> countDownAction;
 	private Consumer<LocalTime> onTimeAction;
 	private ICountDown countDown;
-	private boolean value;
+	private boolean pvpEnable;
 
 	/**
 	 * Creates a time line observer associated to the given game.
@@ -53,6 +53,8 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		// Action when the count down is over
 		onTimeAction = time -> setPvp(true);
+
+		setPvp(false);
 	}
 
 	@Override
@@ -72,9 +74,10 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		ITimeLine timeLine = Platform.get(game.getPlugin()).getTimeLine();
 		LocalTime pvpTime = ((IPvpTimeConfigurable) game).getPvpTime().get();
-		LocalTime realPvpTime = pvpTime.equals(LocalTime.MIN) ? LocalTime.of(0, 0, 1) : pvpTime;
-		countDown = new CountDown(pvpTime.toSecondOfDay() < 5 ? pvpTime.toSecondOfDay() : 5, countDownAction, onTimeAction);
-		timeLine.register(realPvpTime, this);
+		LocalTime modified = pvpTime.toSecondOfDay() < 30 ? LocalTime.of(0, 0, 30) : pvpTime;
+		countDown = new CountDown(5, countDownAction, onTimeAction);
+		send("PvpTimeLineObserver - onGameStart");
+		timeLine.register(modified, this);
 	}
 
 	@EventHandler
@@ -84,7 +87,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		LocalTime pvpTime = ((IPvpTimeConfigurable) event.getGame()).getPvpTime().get();
 		Platform.get(event.getGame().getPlugin()).getTimeLine().unregister(pvpTime, this);
-		value = false;
+		setPvp(false);
 	}
 
 	@EventHandler
@@ -101,6 +104,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 
 		// Unregistering the observer for the old PVP time value
 		timeLine.unregister(oldPvpTime, this);
+
 		if (oldPvpTime.compareTo(newPvpTime) <= 0)
 			setPvp(false);
 
@@ -160,16 +164,16 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 	 * 
 	 * @param value True to enable the PVP, false otherwise.
 	 */
-	private void setPvp(boolean value) {
-		if (this.value == value)
+	private void setPvp(boolean pvpEnable) {
+		if (this.pvpEnable == pvpEnable)
 			return;
 
-		this.value = value;
-		WorldManager.OVERWORLD.setPVP(value);
-		WorldManager.NETHER_WORLD.setPVP(value);
-		WorldManager.END_WORLD.setPVP(value);
+		this.pvpEnable = pvpEnable;
+		WorldManager.OVERWORLD.setPVP(pvpEnable);
+		WorldManager.NETHER_WORLD.setPVP(pvpEnable);
+		WorldManager.END_WORLD.setPVP(pvpEnable);
 
-		send(value ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
+		send(pvpEnable ? ERuleCode.GAME_RULE__PVP__PVP_ENABLED : ERuleCode.GAME_RULE__PVP__PVP_DISABLED, EColor.DARK_RED, DisplayOption.CONSOLE);
 	}
 
 	private void send(IMinecraftCode code, EColor color, DisplayOption displayOption, Object... args) {
@@ -185,9 +189,7 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 				return false;
 			});
 
-			builder.withGroup(group);
+			send(builder.withGroup(group).build(args));
 		}
-
-		send(builder.build(args));
 	}
 }
