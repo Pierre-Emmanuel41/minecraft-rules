@@ -65,11 +65,11 @@
 		</message>
 		<message>
 			<code>GAME_RULE__PVP__PVP_ENABLED</code>
-			<value>PVP enabled</value>
+			<value>PVP enabled, good luck ...</value>
 		</message>
 		<message>
 			<code>GAME_RULE__PVP__PVP_DISABLED</code>
-			<value>PVP disabled</value>
+			<value>PVP disabled, for now ...</value>
 		</message>
 		<message>
 			<code>GAME_RULE__ENCHANT__ENCHANT_REMOVED</code>
