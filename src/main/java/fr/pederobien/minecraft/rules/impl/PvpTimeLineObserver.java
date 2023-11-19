@@ -54,7 +54,8 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		// Action when the count down is over
 		onTimeAction = time -> setPvp(true);
 
-		setPvp(false);
+		// Dummy initialization, will be update when the game is starting
+		pvpEnable = true;
 	}
 
 	@Override
@@ -72,9 +73,11 @@ public class PvpTimeLineObserver implements IObsTimeLine, ICodeSender, IEventLis
 		if (!event.getGame().equals(game) || !pvpRule.getValue() || !(event.getGame() instanceof IPvpTimeConfigurable))
 			return;
 
+		setPvp(false);
+
 		ITimeLine timeLine = Platform.get(game.getPlugin()).getTimeLine();
 		LocalTime pvpTime = ((IPvpTimeConfigurable) game).getPvpTime().get();
-		LocalTime modified = pvpTime.toSecondOfDay() < 30 ? LocalTime.of(0, 0, 30) : pvpTime;
+		LocalTime modified = pvpTime.toSecondOfDay() < 10 ? LocalTime.of(0, 0, 10) : pvpTime;
 		countDown = new CountDown(5, countDownAction, onTimeAction);
 		send("PvpTimeLineObserver - onGameStart");
 		timeLine.register(modified, this);
